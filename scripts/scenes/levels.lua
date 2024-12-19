@@ -29,6 +29,7 @@ function level_load()
     bloods={}
     drip={}
     objects={}
+    collects={}
     plr_dust = {}
 
 
@@ -49,6 +50,7 @@ function level_update()
     t+=1
     player_update()
     dust_update()
+    collect_update()
     
     for e in all(enemies) do
         e:update()
@@ -70,15 +72,13 @@ function level_draw()
     cls()
     main_pal()
     map(mx,my,0,0,16,16,0x80)
-    for e in all(enemies) do
-        e:draw()
-    end
+    for e in all(enemies) do e:draw() end
     
-    for b in all(bloods) do
-        b:draw()
-    end
+    for b in all(bloods) do b:draw() end
 
     map(mx,my,0,0,16,16,0x40)
+
+    for c in all(collects) do pset(c.x,c.y,7) end
 
     if levels[lvl][2] != 0 then levels[lvl][2]() end
     for d in all(drip) do 
@@ -86,13 +86,9 @@ function level_draw()
         pset(d.x,d.og_y,8)
     end
 
-    for s in all(plr_dust) do
-        pset(s.x,s.y,s.c)
-    end
+    for s in all(plr_dust) do pset(s.x,s.y,s.c) end
 
-    for o in all(objects) do
-        if o.draw!=0 then o:draw() end
-    end
+    for o in all(objects) do if o.draw!=0 then o:draw() end end
     player_draw()
 end
 

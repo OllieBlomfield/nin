@@ -7,4 +7,5 @@ function _draw() level_draw() end
 --Fix collision (make more efficient and fix jump x collision bug)
 --Fix issue of clipping up through platforms
 --right and left collision for respawn
+--add can't fully collect coin until grounded
 --make character stretch when jump/run
