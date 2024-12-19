@@ -38,7 +38,9 @@ function player_init(pos)
         respawn_state = 0,
         respawn_time=0,
         dr_w=8,
-        dr_h=8 -- draw height and draw width
+        dr_h=8, -- draw height and draw width
+        prev_vy=0,
+        prev_vx=0
     }
 
     plr_dust = {}
