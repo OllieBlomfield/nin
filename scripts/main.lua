@@ -6,4 +6,5 @@ function _draw() level_draw() end
 --TO DO:
 --Fix collision (make more efficient and fix jump x collision bug)
 --Fix issue of clipping up through platforms
---give grace frames for walljumping and falling
+--right and left collision for respawn
+--make character stretch when jump/run

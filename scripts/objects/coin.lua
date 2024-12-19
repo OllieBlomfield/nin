@@ -1,7 +1,9 @@
+collected={}
 coin_anim={6,7,8,9,8,7}
 coin = {
     update=function(self)
         if coll(plr,self) then
+            collected[lvl]=true
             del(objects,self)
         end
     end,

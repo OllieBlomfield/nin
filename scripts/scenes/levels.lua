@@ -1,4 +1,4 @@
-levels={{
+--[[levels={{
     function()
         add_object(spike,8,8,4)
     end,
@@ -9,14 +9,15 @@ levels={{
     end,
     function() line(54,-1,55,6,8) print("🅾️ to jump",13,100,5) end
 },{0,function() line(85,85,100,70,5) line(110,70,110,74) line(110,70,105,70) line(110,50,95,35) end},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0,{86,112}},{function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,24,0,-1) end,function() print("❎ to kill",10,82,8) end,{20,8}},{0,0,{2,20}},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{function() add_enemy(112,112) add_enemy(100,112) add_enemy(80,80) end,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}
-
---[[levels={}
+--]]
+levels={}
 for i=1,32 do levels[i]={0,0} end
-levels[2]={function()
-    add_blood_drip(55,7)
-end,
-function() line(54,-1,55,6,8) print("🅾️ to jump",13,100,5) end
-}--]]
+levels[1] = {function() end,function() end}
+levels[2]={function() add_blood_drip(55,7) end, function() line(54,-1,55,6,8) print("🅾️ to jump",13,100,5) end}
+levels[9]={0,0,{86,112}}
+levels[10]={0,0,{2,8}}
+levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,24,0,-1) end,function() print("❎ to kill",10,82,8) end,{20,8}}
+levels[12]={0,0,{2,20}}
 function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     t = 0
@@ -39,7 +40,7 @@ end
 function level_init(lvl)
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     mx=32
-    my=48
+    my=32
     level_load()
     player_init({16,112})
 end
