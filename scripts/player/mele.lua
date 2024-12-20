@@ -18,22 +18,7 @@ wpn = {
     frame=1,
 }
 
-ATK_BUFFER = 10
-atk = {
-    x=0,
-    y=0,
-    w=50,
-    h=40,
-    in_range={},
-    buffer=0
-}
-
-ray_point={x=0,y=0}
-
 function player_mele_update()
-    ray_point = {x=plr.x+8,y=plr.y}
-    atk.x = plr.x
-    atk.y = plr.y-20
     if plr.damaged and plr.inv == 0 then
         plr.inv = PLR_INV_TIME
     end
@@ -63,7 +48,7 @@ function player_mele_update()
         if btn(3) then
             wpn.dir = 3
             wpn.sp=56
-        end--]]
+        end
 
         if btnp(5) then
             if wpn.dir==0 or (wpn.dir==3 and plr.vy==0) then
@@ -75,7 +60,7 @@ function player_mele_update()
             end
             wpn.attacking = true
             wpn.attack_anim = true
-        end--]]
+        end
     end
     if wpn.attacking then
         plr_attack_anim()

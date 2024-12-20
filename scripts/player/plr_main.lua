@@ -40,7 +40,8 @@ function player_init(pos)
         dr_w=8,
         dr_h=8, -- draw height and draw width
         prev_vy=0,
-        prev_vx=0
+        prev_vx=0,
+        temp_collect=false
     }
 
     plr_dust = {}
@@ -48,7 +49,7 @@ end
 
 
 function player_update()
-    if plr.respawn_state==0 then 
+    if plr.respawn_state==0 then
         plr_movement_update()
         player_mele_update()
     else

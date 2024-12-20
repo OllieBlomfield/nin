@@ -40,7 +40,7 @@ end
 
 function level_init(lvl)
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
-    mx=32
+    mx=48
     my=32
     level_load()
     player_init({16,112})
