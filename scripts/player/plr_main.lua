@@ -39,9 +39,8 @@ function player_init(pos)
         respawn_time=0,
         dr_w=8,
         dr_h=8, -- draw height and draw width
-        prev_vy=0,
-        prev_vx=0,
-        temp_collect=false
+        temp_collect=false,
+        dropped=false
     }
 
     plr_dust = {}
@@ -68,6 +67,9 @@ function player_update()
                 plr.sp=26
                 plr.vy=0
                 respawn_state=3
+            end
+            if collide_map(plr,"left",2) or collide_map(plr,"right",2) then
+                plr.vx=0
             end
             plr.x+=plr.vx
             plr.y-=plr.vy

@@ -54,8 +54,8 @@ function update_plr_animation()
 end
 
 function player_draw()
-    --if plr.vx!=0 and plr.prev_vx==0 then plr.dr_w = 9 else plr.dr_w=8 end
-    if abs(plr.vy-plr.prev_vy)>0.8 then plr.dr_h = 9 else plr.dr_h=8 end
+    if abs(plr.vy)>0.8 then plr.dr_h = 9 else plr.dr_h=8 end
+    --if abs(plr.vx)>0.8 then plr.dr_w = 9 else plr.dr_w=8 end
 
     --spr(plr.sp, plr.x, plr.y, 1, 1, plr.vx < 0 or collide_map(plr, "left", 0))
     sx, sy = (plr.sp % 16) * 8, (plr.sp \ 16) * 8 --from wiki

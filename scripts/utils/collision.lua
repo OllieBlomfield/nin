@@ -64,8 +64,8 @@ function collide_map_raycast(a,b)
   local inc=b.y-(gr*b.x)
   local dst = sqrt((a.x-b.x)^2+(a.y-b.y)^2)
   for d=1,dst do
-    local col_sp=mget((d+a.x)/8,(((d+a.x)*gr)+inc)/8)
-    if fget(col_sp, 0) or fget(col_sp,1) or fget(col_sp/8,2) then return true end
+    local col_sp=mget((d+a.x)/8 + mx,(((d+a.x)*gr)+inc)/8 + my)
+    if fget(col_sp, 0) or fget(col_sp,1) or fget(col_sp,2) then return true end
   end
   return false
 end

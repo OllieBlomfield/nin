@@ -46,7 +46,7 @@ enemy = {
             --change state logic
             if not can_see_plr(self, sgn(plr.x - self.x)) and self.chase_time==0 then
                 --self.chase_time=120
-                self.state = 1
+                self.state = self.og_state
             end
             --still chasing but cannot find
             --[[if self.chase_time > 0 then
@@ -168,9 +168,9 @@ end
 
 function can_see_plr(obj, dir)
     if obj.y-16<= plr.y and obj.y+8 >= plr.y then
-        if dir > 0 and (obj.x <= plr.x and obj.x + obj.sight_range >= plr.x) then
+        if dir > 0 and (obj.x <= plr.x and obj.x + obj.sight_range >= plr.x) and not collide_map_raycast(plr,obj) then
             return true
-        elseif dir < 0 and (obj.x >= plr.x and obj.x - obj.sight_range <= plr.x) then
+        elseif dir < 0 and (obj.x >= plr.x and obj.x - obj.sight_range <= plr.x) and not collide_map_raycast(plr,obj) then
             return true
         end
     end
