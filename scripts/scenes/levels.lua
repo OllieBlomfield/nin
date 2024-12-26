@@ -14,6 +14,8 @@ levels={}
 for i=1,32 do levels[i]={0,0} end
 levels[1] = {function() end,function() end}
 levels[2]={function() add_blood_drip(55,7) end, function() line(54,-1,55,6,8) print("🅾️ to jump",13,100,5) end}
+levels[4]={function() add_enemy(104,96,0,-1) end,0,{102,8}}
+levels[6]={function() add_enemy(88,16,0) end,0}
 levels[9]={0,0,{86,112}}
 levels[10]={0,0,{2,8}}
 levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,24,0,-1) end,function() print("❎ to kill",10,82,8) end,{20,8}}
@@ -41,8 +43,8 @@ end
 
 function level_init(lvl)
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
-    mx=0
-    my=48
+    mx=48
+    my=32
     level_load()
     player_init({16,112})
 end

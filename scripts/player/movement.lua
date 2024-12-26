@@ -92,7 +92,8 @@ function plr_movement_update()
     --Wall Jump and slide Logic
     if plr.vy < 0 then
         if mcol_l then
-            if plr.jp_buffer>0 then
+            --if plr.jp_buffer>0 then
+            if btnp(4) then
                 plr.jp_buffer=0
                 plr.vy = plr.jumpfrc
                 plr.vx = 1
@@ -102,7 +103,8 @@ function plr_movement_update()
             plr.decel = SLIDE_DECEL
             add_dust(plr.x, plr.y+3,5)
         elseif mcol_r then
-            if plr.jp_buffer>0 then
+            --if plr.jp_buffer>0 then
+            if btnp(4) then
                 plr.jp_buffer=0
                 plr.vy = plr.jumpfrc
                 plr.vx = -1

@@ -40,7 +40,7 @@ function player_init(pos)
         dr_w=8,
         dr_h=8, -- draw height and draw width
         temp_collect=false,
-        dropped=false
+        dropped=false,
     }
 
     plr_dust = {}

@@ -46,7 +46,7 @@ enemy = {
             --change state logic
             if not can_see_plr(self, sgn(plr.x - self.x)) and self.chase_time==0 then
                 --self.chase_time=120
-                self.state = self.og_state
+                self.state = 1
             end
             --still chasing but cannot find
             --[[if self.chase_time > 0 then
@@ -72,15 +72,6 @@ enemy = {
                 y=self.y+4,
                 lines=true,
             },20))
-            if plr.splat_t>0 then
-                if plr.spl_am >= 1 then
-                    plr.spl_am=2
-                else
-                    plr.spl_am=1
-                end
-            end
-            plr.splat_t = 240
-            plr.spl_pal = 8
             del(enemies,self)
         end
         if coll(self, plr) and plr.inv == 0 and not wpn.attacking then
