@@ -1,7 +1,7 @@
 function screen_shake()
     local fade = 0.95
-    local offset_x=16-rnd(32)
-    local offset_y=16-rnd(32)
+    offset_x=8-rnd(16)
+    offset_y=8-rnd(16)
     offset_x*=offset
     offset_y*=offset
     

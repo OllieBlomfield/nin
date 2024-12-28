@@ -53,6 +53,7 @@ function player_update()
         player_mele_update()
     else
         plr.respawn_time+=1
+        screen_shake()
         if btnp(5) and plr.respawn_time>20 then plr_respawn() end
         if plr.respawn_state==1 then
             plr.vx=-sgn(plr.vx)
