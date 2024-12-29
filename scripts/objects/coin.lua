@@ -8,7 +8,7 @@ coin = {
 
         if plr.temp_collect and plr.grounded then
             plr.temp_collect=false
-            add_collect(plr.x-(plr.vx*2),plr.y+(plr.vy*2))
+            add_collect(plr.x-(plr.vx*3),plr.y+(plr.vy*3))
             collected[lvl]=true
             del(objects,self)
         end
@@ -18,7 +18,7 @@ coin = {
         if not plr.temp_collect then
             spr(coin_anim[self.frame],self.x,self.y)
         else
-            spr(coin_anim[self.frame],plr.x-(plr.vx*2),plr.y+(plr.vy*2))
+            spr(coin_anim[self.frame],plr.x-(plr.vx*3),plr.y+(plr.vy*3))
         end
         if t%10==9 then
             if self.frame<6 then

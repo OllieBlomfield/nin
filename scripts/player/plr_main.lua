@@ -51,7 +51,7 @@ function player_update()
     if plr.respawn_state==0 then
         plr_movement_update()
         player_mele_update()
-    else
+    elseif plr.respawn_state<3 then
         plr.respawn_time+=1
         screen_shake()
         if btnp(5) and plr.respawn_time>20 then plr_respawn() end
@@ -74,6 +74,11 @@ function player_update()
             end
             plr.x+=plr.vx
             plr.y-=plr.vy
+        end
+    else
+        if btnp(4) then 
+            plr.respawn_state=0
+            plr.vy=plr.jumpfrc
         end
     end
 end
