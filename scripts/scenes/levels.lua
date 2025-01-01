@@ -12,6 +12,7 @@ levels[10]={0,0,{2,8}}
 levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,32,0,-1) end,function() print("❎ to kill",10,82,8) end,{20,8}}
 levels[12]={function() add_enemy(60,64,0,-1) add_enemy(16,112,0) end,0,{2,20}}
 levels[16]={function() switch_solid=-1 end,0,{112,112}}
+levels[24]={function() switch_solid=1 end,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
 function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
@@ -37,8 +38,11 @@ end
 
 function level_init(lvl)
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
-    mx=112
-    my=32
+    update=level_update
+    draw=level_draw
+    mx=0
+    my=48
+    fade_in=16
     player_init({16,112})
     level_load()
     
@@ -46,6 +50,7 @@ end
 
 function level_update()
     t+=1
+    if fade_in>0 then fade_in-=1 end
     player_update()
     dust_update()
     collect_update()
@@ -68,6 +73,7 @@ end
 
 function level_draw()
     cls()
+    --if fade_in>=0 then fade(fade_in) end
     main_pal()
     map(mx,my,0,0,16,16,0x80)
     

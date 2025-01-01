@@ -1,9 +1,13 @@
-function _init() level_init(2) end
-function _update60() level_update() end
-function _draw() level_draw() end
+function _init() menu_init() end
+function _update60() update() end
+function _draw() draw() end
 
 
 --TO DO:
 --Fix collision (make more efficient and fix jump x collision bug)
 --Fix blood spawning issue after respawn (might be fixed not sure)
 --Fix respawn points
+--fix blood splat glitch
+
+
+--EXPORT GAME.HTML -P CRT
