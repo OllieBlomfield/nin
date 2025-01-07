@@ -41,8 +41,8 @@ function level_init(lvl)
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=32
-    my=32
+    mx=0
+    my=48
     fade_in=16
     player_init({16,112})
     level_load()
