@@ -61,4 +61,6 @@ function player_draw()
     sx, sy = (plr.sp % 16) * 8, (plr.sp \ 16) * 8 --from wiki
     sspr(sx,sy,8,8,plr.x,plr.y,plr.dr_w,plr.dr_h, plr.vx < 0 or collide_map(plr, "left", 0))
     weapon_draw()
+    
+    if plr.respawn_state==2 then rectfill(28,120,97,128,7) print("press ❎ to retry",30,122,8) end
 end

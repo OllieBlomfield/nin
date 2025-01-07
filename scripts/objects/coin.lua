@@ -7,6 +7,7 @@ coin = {
         end
 
         if plr.temp_collect and plr.grounded then
+            new_level=false
             plr.temp_collect=false
             add_collect(plr.x-(plr.vx*3),plr.y+(plr.vy*3))
             collected[lvl]=true

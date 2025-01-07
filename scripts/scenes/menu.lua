@@ -28,7 +28,7 @@ function menu_update()
     t+=1
     if start>0 then start+=1 end
     if btnp(5) then start=1 end
-    if start>90 then level_init() end
+    if start>90 then pal() level_init() end
 end
 
 function menu_draw()
@@ -39,8 +39,9 @@ function menu_draw()
     rectfill(0,0,128,119,0)
     rect(0,0,127,127,7)
     draw_logo(35,40)
+    print("demo v1",35,74)
     if t%100<50 and start==0 then print("❎escape",48,80,7) end
-    --if start>45 then fade(start-45) end
+    if start>45 then fade(start-45) end
 end
 
 function draw_logo(x,y)
@@ -49,9 +50,9 @@ function draw_logo(x,y)
         pal(14,7)
         pal(15,7)
     else
-        --pal(8,fadeTable[7][start-44])
-        --pal(14,fadeTable[7][start-44])
-        --pal(15,fadeTable[7][start-44])
+        pal(8,fadeTable[7][start-44])
+        pal(14,fadeTable[7][start-44])
+        pal(15,fadeTable[7][start-44])
     end
     sspr(56,32,12,16,x,y,24,32)
     if start<44 then
