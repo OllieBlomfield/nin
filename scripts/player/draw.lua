@@ -61,6 +61,13 @@ function player_draw()
     sx, sy = (plr.sp % 16) * 8, (plr.sp \ 16) * 8 --from wiki
     sspr(sx,sy,8,8,plr.x,plr.y,plr.dr_w,plr.dr_h, plr.vx < 0 or collide_map(plr, "left", 0))
     weapon_draw()
+    --[[print(plr.respawn_time-t,50,50)
+    print(t,80,50)--]]
     
-    if plr.respawn_state==2 then rectfill(28,120,97,128,7) print("press ❎ to retry",30,122,8) end
+    if plr.respawn_state==2 then
+        --scale_text("do better",10,10,7,(1+(t-plr.respawn_time)/100))
+        rect(41,59,85,69,7)
+        rectfill(42,60,84,68,0)
+        print("x to retry",44,62,7)
+    end
 end

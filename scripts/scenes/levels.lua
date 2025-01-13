@@ -18,10 +18,7 @@ levels[25]={function() add_enemy(112,112,0,-1) end,0}
 function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     t = 0
-    shake=false
-    offset=0.1
-    offset_x=0
-    offset_y=0
+    shake=0
 
     enemies={}
     blood.lns = {}
@@ -68,6 +65,7 @@ function level_update()
         if o.update!=0 then o:update() end
     end
     if switch_delay>0 then switch_delay-=1 end
+    if shake>0 then shake-=1 screen_shake() else camera(0,0) end
 
     drip_update()
 end
@@ -82,8 +80,8 @@ function level_draw()
     for b in all(bloods) do b:draw() end
 
     map(mx,my,0,0,16,16,0x40)
-    rectfill(0,0,7,6,0)
-    print(lvl,0,0,7)
+    --[[rectfill(0,0,7,6,0)
+    print(lvl,0,0,7)--]]
 
     for c in all(collects) do pset(c.x,c.y,7) end
 

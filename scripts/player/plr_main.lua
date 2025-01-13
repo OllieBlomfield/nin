@@ -3,12 +3,14 @@ function player_init(pos)
     SLOW_DECEL = 0.08
     FAST_DECEL = 0.25
     MAX_Y_DECEL = -1.3
+    GROUNDPOUND_Y_VEL=-3
     MAX_X_VELOCTY = 1.1
     run_anim_delay = {30,30,30,20,20,15,15,15}
     WALL_JUMP_MOVE_DELAY = 12
     WALL_JUMP_REDUCED_X_VELOCITY = 0.6
     PLR_INV_TIME = 100
     COYOTE_TIME=5
+
     
     plr = {
         sp = 16,
@@ -27,6 +29,7 @@ function player_init(pos)
         jumpfrc = 2.2,
         jumped = false,
         grounded = true,
+        gp = false, --ground pounding check
         decel = 0.1,
         jp_buffer=0,
         wgt = 0, --checks if just wall jumped {time since jump, jump direction}

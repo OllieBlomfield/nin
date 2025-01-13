@@ -48,9 +48,9 @@ function plr_movement_update()
 
     dust_off = 0
     if plr.vx != 0 then plr.vx*=plr.fr end
-    if btn(1) then
+    if btn(1) and not plr.gp then
         update_player_x_velocity(1)
-    elseif btn(0) then
+    elseif btn(0) and not plr.gp then
         update_player_x_velocity(-1)
     end
 
@@ -86,6 +86,7 @@ function plr_movement_update()
         plr.vx=-sgn(plr.vx)*1
         plr.vy=2
     end
+
 
     --collision
 
@@ -124,22 +125,32 @@ function plr_movement_update()
             plr.wgt = 0
         end
     end
+
+    if not plr.grounded and btnp(3) then 
+        plr.gp=true
+        plr.vx = 0
+    end
     
-    
-    plr.vy = max(plr.vy-plr.decel, MAX_Y_DECEL)
+    if not plr.gp then
+        plr.vy = max(plr.vy-plr.decel, MAX_Y_DECEL)
+    else
+        plr.vy=-2.5
+    end
     
     if plr.vy < 0 then
         --logic for fall partices (not sure to add or not)
-        --if plr.vy == MAX_Y_DECEL and plr.state != 5 then
-        --    add_dust(plr.x, plr.y+3, 2)
-        --    add_dust(plr.x+7, plr.y+3, 2)
-        --end
+        if plr.gp then
+            add_dust(plr.x, plr.y+2, 2)
+            add_dust(plr.x+7, plr.y+2, 2)
+        end
         --
         plr.grounded = false
         if (mcol_d) and not (btn(3) and collide_map(plr,"down",5)) then
             plr.vy = 0
             plr.y-=((plr.y+plr.h+1)%8)-1
             plr.grounded = true
+            if plr.gp then shake=9 end
+            plr.gp=false
             plr.jumped=false
         end
     end
