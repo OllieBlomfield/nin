@@ -82,10 +82,10 @@ function plr_movement_update()
         end
     end
 
-    if plr.inv==PLR_INV_TIME-1 then
+    --[[if plr.inv==PLR_INV_TIME-1 then
         plr.vx=-sgn(plr.vx)*1
         plr.vy=2
-    end
+    end--]]
 
 
     --collision
@@ -128,7 +128,7 @@ function plr_movement_update()
 
     if not plr.grounded and btnp(3) then 
         plr.gp=true
-        plr.vx = 0
+        plr.vx*= 0.01
     end
     
     if not plr.gp then
@@ -145,7 +145,7 @@ function plr_movement_update()
         end
         --
         plr.grounded = false
-        if (mcol_d) and not (btn(3) and collide_map(plr,"down",5)) then
+        if (mcol_d) and not (btn(3) and collide_map(plr,"down",5) and not plr.gp) then
             plr.vy = 0
             plr.y-=((plr.y+plr.h+1)%8)-1
             plr.grounded = true
@@ -162,14 +162,14 @@ function plr_movement_update()
     end
 
     if plr.vx<0 then
-        if mcol_l then
+        if collide_map(plr,"left",2) then
           plr.vx=0
         end
         if plr.grounded and plr.vx < -0.05 then
             add_dust(plr.x+6,plr.y+8,4)
         end
     elseif plr.vx>0 then
-        if mcol_r then
+        if collide_map(plr,"right",2) then
           plr.vx=0
         end
         if plr.grounded and plr.vx > 0.05 then

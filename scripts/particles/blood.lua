@@ -5,7 +5,9 @@ blood = {
     splat={},
     --shake=true,
 
-    new=function(self, tbl, n)
+    new=function(self, tbl, n, al, v)
+        al=al or 0
+        v=v or 0
         tbl=tbl or {}
         setmetatable(tbl,{__index=self})
         for i=1,n do
@@ -14,8 +16,8 @@ blood = {
                 y=tbl.y,
                 lines=tbl.lines,
                 vx=rnd(1)-0.5,
-                vy=rnd(1),
-                l=rnd(35),
+                vy=rnd(1)+v,
+                l=rnd(35) + al,
                 --c=flr(rnd(2)+1)*4
                 c=8
             })

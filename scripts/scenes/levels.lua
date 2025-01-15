@@ -11,8 +11,8 @@ levels[9]={0,0,{86,112}}
 levels[10]={0,0,{2,8}}
 levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,32,0,-1) end,function() print("❎ to kill",17,96,8) end,{20,8}}
 levels[12]={function() add_enemy(60,64,0,-1) add_enemy(16,112,0) end,0,{2,20}}
+levels[15]={boss_init,boss_draw}
 levels[16]={function() switch_solid=-1 end,0,{112,112}}
-levels[23]={0,function() print("end of demo :)",42,58,7) end}
 levels[24]={function() switch_solid=1 end,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
 function level_load()
@@ -27,6 +27,7 @@ function level_load()
     objects={}
     collects={}
     plr_dust = {}
+    health_bar=false
 
 
     if levels[lvl][1]!=0 then levels[lvl][1]() end
@@ -80,12 +81,12 @@ function level_draw()
     for b in all(bloods) do b:draw() end
 
     map(mx,my,0,0,16,16,0x40)
-    --[[rectfill(0,0,7,6,0)
-    print(lvl,0,0,7)--]]
+    rectfill(0,0,7,6,0)
+    print(lvl,0,0,7)
 
     for c in all(collects) do pset(c.x,c.y,7) end
 
-    if levels[lvl][2] != 0 then levels[lvl][2]() end
+    
     for d in all(drip) do 
         pset(d.x,d.y,8) 
         pset(d.x,d.og_y,8)
@@ -93,8 +94,18 @@ function level_draw()
 
     for s in all(plr_dust) do pset(s.x,s.y,s.c) end
 
+    if levels[lvl][2] != 0 then levels[lvl][2]() end
     for o in all(objects) do if o.draw!=0 then o:draw() end end
     for e in all(enemies) do e:draw() end
     player_draw()
+
+    if health_bar then
+        rect(19,121,109,127,0)
+        rect(20,122,108,126,7)
+        rectfill(21,123,107,125,0)
+        if boss.hp>0 then
+            rectfill(21,123,21+86*(boss.hp/10),125,8)
+        end
+    end
 end
 
