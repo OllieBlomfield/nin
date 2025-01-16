@@ -35,9 +35,9 @@ function player_init(pos)
         wgt = 0, --checks if just wall jumped {time since jump, jump direction}
         state = 0, --0 for idle, 1 for running, 2 for pivot, 3 for jumping, 4 for falling, 5 for sliding
         hp = 1,
-        splat_t=0,
+        spl_t=0,
         spl_am=0,
-        spl_pal = 8,
+        spl_pal = {7,7,7},
         respawn_state = 0,
         respawn_time=0,
         dr_w=8,
@@ -51,6 +51,19 @@ end
 
 
 function player_update()
+    --blood logic
+    if plr.spl_t<=0 then 
+        plr.spl_am=0
+        plr.spl_pal={7,7,7}
+    else
+        plr.spl_t-=1
+        if plr.spl_t < 8 then
+            for i=1,plr.spl_am do
+                plr.spl_pal[i]=14
+            end
+        end
+    end
+
     if plr.respawn_state==0 then
         plr_movement_update()
         player_mele_update()

@@ -5,7 +5,7 @@ function menu_init()
     draw=menu_draw
 end
 
-local fadeTable={ --from https://kometbomb.net/pico8/fadegen.html
+fadeTable={ --from https://kometbomb.net/pico8/fadegen.html
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     {1,1,129,129,129,129,129,129,129,129,0,0,0,0,0},
     {2,2,2,130,130,130,130,130,128,128,128,128,128,0,0},

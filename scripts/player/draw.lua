@@ -1,6 +1,8 @@
 function update_plr_animation()
     --Logic to chose which state
-    if plr.inv > PLR_INV_TIME/2 then
+    if plr.gp then
+        plr.state=8
+    elseif plr.inv > PLR_INV_TIME/2 then
         plr.state = 6
     elseif plr.vy > 0 then
         plr.state = 3
@@ -50,24 +52,22 @@ function update_plr_animation()
         plr.sp = 25
     elseif plr.state == 7 then
         plr.sp=24
+    elseif plr.state==8 then
+        plr.sp=27
     end
 end
 
 function player_draw()
+    plr_pal()
     if abs(plr.vy)>0.8 then plr.dr_h = 9 else plr.dr_h=8 end
-    --if abs(plr.vx)>0.8 then plr.dr_w = 9 else plr.dr_w=8 end
-
-    --spr(plr.sp, plr.x, plr.y, 1, 1, plr.vx < 0 or collide_map(plr, "left", 0))
     sx, sy = (plr.sp % 16) * 8, (plr.sp \ 16) * 8 --from wiki
     sspr(sx,sy,8,8,plr.x,plr.y,plr.dr_w,plr.dr_h, plr.vx < 0 or collide_map(plr, "left", 0))
     weapon_draw()
-    --[[print(plr.respawn_time-t,50,50)
-    print(t,80,50)--]]
     
     if plr.respawn_state==2 then
-        --scale_text("do better",10,10,7,(1+(t-plr.respawn_time)/100))
         rect(41,59,85,69,7)
         rectfill(42,60,84,68,0)
         print("x to retry",44,62,7)
     end
+    main_pal()
 end

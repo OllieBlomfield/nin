@@ -93,11 +93,16 @@ enemy = {
     end,
 
     draw=function(self)
+        pal(15,8)
+        pal(13,8)
+        pal(9,8)
+        pal(7,4)
         spr(self.sp,self.x,self.y,1,1, self.d < 0)
         if self.state==2 then
             spr(48, self.x + 3, self.y-8)
         end
         animate_enemy(self)
+        pal(7,7)
     end
 }
 
@@ -111,21 +116,21 @@ function animate_enemy(obj)
 
     if obj.state==0 then
         if t%120>60 then
-            obj.sp=33
+            obj.sp=16
         else
-            obj.sp=32
+            obj.sp=17
         end
     elseif obj.state==1 then
         if t%30 > 15 then
-            obj.sp=36
+            obj.sp=18
         else
-            obj.sp=37
+            obj.sp=17
         end
     elseif obj.state==2 then
         if t%18 > 9 then
-            obj.sp=34
+            obj.sp=18
         else
-            obj.sp=35
+            obj.sp=17
         end
     end
 end

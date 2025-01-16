@@ -71,15 +71,8 @@ function player_mele_update()
         for e in all(enemies) do
             if coll(wpn,e) then
                 damage(e,1)
-                if plr.splat_t>0 then
-                    if plr.spl_am >= 1 then
-                        plr.spl_am=2
-                    else
-                        plr.spl_am=1
-                    end
-                end
-                plr.splat_t = 240
-                plr.spl_pal = 8
+                plr.spl_am=min(3,plr.spl_am+1)
+                plr.spl_t = 240
             end
         end
     end

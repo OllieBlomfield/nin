@@ -3,6 +3,16 @@ function damage(obj, dmg)
     obj.damaged = true
 end
 
-function draw_health(obj)
-    for i=0,obj.hp-1 do spr(49,6*i,4) end
+function draw_hb(w,hp,maxhp,prev_diff)
+    local l=flr(64-w/2)
+    local r=flr(64+w/2)
+    rect(l-2,121,r+2,127,0)
+    rect(l-1,122,r+1,126,7)
+    rectfill(l,123,r,125,0)
+    if hp>0 then
+        rectfill(l,123,l+w*(hp/maxhp),125,8)
+    end
+    if prev_diff>0 then
+        rectfill(l+w*(hp/maxhp),123,l+w*(hp/maxhp)+w*(prev_diff/maxhp),125,4)
+    end
 end

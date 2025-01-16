@@ -2,16 +2,6 @@
 
 function plr_movement_update()
     --blood logic (needs to be moved later)
-    if plr.splat_t > 0 then
-        plr.splat_t-=1
-        if plr.splat_t < 8 then
-            plr.spl_pal=14
-        end
-    else
-        plr.spl_pal=8
-        plr.spl_am=0
-    end
-
     if plr.x > 128 then
         mx+=16
         plr.x=0
@@ -150,6 +140,7 @@ function plr_movement_update()
             plr.y-=((plr.y+plr.h+1)%8)-1
             plr.grounded = true
             if plr.gp then shake=9 end
+            --if not btn(3) then plr.gp=false end
             plr.gp=false
             plr.jumped=false
         end

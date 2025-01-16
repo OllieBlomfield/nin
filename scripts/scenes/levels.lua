@@ -15,6 +15,7 @@ levels[15]={boss_init,boss_draw}
 levels[16]={function() switch_solid=-1 end,0,{112,112}}
 levels[24]={function() switch_solid=1 end,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
+levels[27]={snow_init,snow_draw}
 function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     t = 0
@@ -26,6 +27,7 @@ function level_load()
     drip={}
     objects={}
     collects={}
+    snow={}
     plr_dust = {}
     health_bar=false
 
@@ -39,8 +41,8 @@ function level_init(lvl)
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=0
-    my=48
+    mx=32
+    my=32
     fade_in=16
     player_init({16,112})
     level_load()
@@ -75,6 +77,7 @@ function level_draw()
     cls()
     --if fade_in>=0 then fade(fade_in) elseif fade_in==-1 then pal() fade_in=-1 end
     main_pal()
+    
     map(mx,my,0,0,16,16,0x80)
     
     
@@ -96,16 +99,8 @@ function level_draw()
 
     if levels[lvl][2] != 0 then levels[lvl][2]() end
     for o in all(objects) do if o.draw!=0 then o:draw() end end
-    for e in all(enemies) do e:draw() end
+    --for e in all(enemies) do e:draw() end
     player_draw()
-
-    if health_bar then
-        rect(19,121,109,127,0)
-        rect(20,122,108,126,7)
-        rectfill(21,123,107,125,0)
-        if boss.hp>0 then
-            rectfill(21,123,21+86*(boss.hp/10),125,8)
-        end
-    end
+    for e in all(enemies) do e:draw() end
 end
 
