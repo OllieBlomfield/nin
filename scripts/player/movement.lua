@@ -71,13 +71,6 @@ function plr_movement_update()
             end
         end
     end
-
-    --[[if plr.inv==PLR_INV_TIME-1 then
-        plr.vx=-sgn(plr.vx)*1
-        plr.vy=2
-    end--]]
-
-
     --collision
 
     --Wall Jump and slide Logic
@@ -139,7 +132,7 @@ function plr_movement_update()
             plr.vy = 0
             plr.y-=((plr.y+plr.h+1)%8)-1
             plr.grounded = true
-            if plr.gp then shake=9 end
+            if plr.gp then shake=9 plr.inv=50 end
             --if not btn(3) then plr.gp=false end
             plr.gp=false
             plr.jumped=false

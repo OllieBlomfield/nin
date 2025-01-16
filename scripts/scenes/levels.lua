@@ -51,7 +51,7 @@ end
 
 function level_update()
     t+=1
-    --if fade_in>=0 then fade_in-=1 end
+    fade_in=max(-1,fade_in-1)
     player_update()
     dust_update()
     collect_update()
@@ -75,8 +75,8 @@ end
 
 function level_draw()
     cls()
-    --if fade_in>=0 then fade(fade_in) elseif fade_in==-1 then pal() fade_in=-1 end
-    main_pal()
+    if fade_in>=0 then fade(fade_in) elseif fade_in==-1 then main_pal() fade_in=-1 end
+    --main_pal()
     
     map(mx,my,0,0,16,16,0x80)
     
@@ -102,5 +102,6 @@ function level_draw()
     --for e in all(enemies) do e:draw() end
     player_draw()
     for e in all(enemies) do e:draw() end
+    print(fade_in,10,10,14)
 end
 

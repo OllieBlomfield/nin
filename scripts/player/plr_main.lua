@@ -64,6 +64,10 @@ function player_update()
         end
     end
 
+    --inv logic
+    plr.inv=max(0,plr.inv-1)
+
+
     if plr.respawn_state==0 then
         plr_movement_update()
         player_mele_update()

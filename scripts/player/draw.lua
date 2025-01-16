@@ -61,8 +61,11 @@ function player_draw()
     plr_pal()
     if abs(plr.vy)>0.8 then plr.dr_h = 9 else plr.dr_h=8 end
     sx, sy = (plr.sp % 16) * 8, (plr.sp \ 16) * 8 --from wiki
-    sspr(sx,sy,8,8,plr.x,plr.y,plr.dr_w,plr.dr_h, plr.vx < 0 or collide_map(plr, "left", 0))
-    weapon_draw()
+    if (plr.inv>0 and t%14>7) or (plr.inv<=0) then
+        sspr(sx,sy,8,8,plr.x,plr.y,plr.dr_w,plr.dr_h, plr.vx < 0 or collide_map(plr, "left", 0))
+        weapon_draw()
+    end
+    --if plr.inv>0 then circ(plr.x+4,plr.y+4,5,7) end
     
     if plr.respawn_state==2 then
         rect(41,59,85,69,7)

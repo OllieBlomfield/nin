@@ -93,7 +93,7 @@ function fight_update()
     if boss.hp<=2 then boss.spd=1.6 end
 
     if coll(plr,{x=boss.x-5,y=boss.y-5,h=10,w=10}) and not plr.gp then damage(plr,1) end
-    if (coll(wpn,{x=boss.x-8,y=boss.y-8,h=16,w=16}) and wpn.attacking) or (coll(plr,{x=boss.x-6,y=boss.y-6,h=12,w=12}) and plr.gp) then 
+    if (coll(wpn,{x=boss.x-8,y=boss.y-8,h=16,w=16}) and wpn.attacking) then 
         if boss.dmged<=0 then
             boss.dmged=30
             boss.prev_hp+=min(boss.hp,1)

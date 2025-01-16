@@ -45,12 +45,16 @@ function player_mele_update()
             wpn.sp=56
         end
 
-        if btn(3) then
+        --[[if btn(3) then
             wpn.dir = 3
             wpn.sp=56
+        end--]]
+
+        if plr.gp then
+            wpn.dir=3
         end
 
-        if btnp(5) then
+        if btnp(5) or plr.gp then
             if wpn.dir==0 or (wpn.dir==3 and plr.vy==0) then
                 if plr.vx < 0 then
                     wpn.dir=2
