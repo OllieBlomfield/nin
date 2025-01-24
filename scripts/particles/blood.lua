@@ -92,3 +92,23 @@ function drip_update()
     end
 end
 
+function add_bludsplosion(x,y)
+    for i=1,40 do add(bs,{
+        x=x+rnd(8)-4,
+        y=y+rnd(4)-2,
+        vy=(rnd(2)-1)/2,
+        vx=(rnd(2)-1)/2,
+        l=rnd(100)+20,
+        s=rnd(2)
+    }) end
+end
+
+function bludsplosion_update()
+    for b in all(bs) do
+        if b.l<=0 then del(bs,b) end
+        b.x+=b.vx
+        b.y-=b.vy
+        b.l-=1
+    end
+end
+

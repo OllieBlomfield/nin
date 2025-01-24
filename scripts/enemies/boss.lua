@@ -28,7 +28,7 @@ end
 
 function boss_draw()
     boss_update()
-    if boss.dmged>0 or boss.hp<=3 then
+    if boss.dmged>0 or boss.hp<3 then
         if t%14>7 then boss.midcol=8 else boss.midcol=7 end
     end
     
@@ -98,13 +98,13 @@ function fight_update()
             boss.dmged=30
             boss.prev_hp+=min(boss.hp,1)
             boss.hp-=1
-            --if plr.spl_am<3 then plr.spl_am+=1 end NEEDS A FIX
             plr.splat_t=300
             if wpn.dir<3 then
                 boss.kb_x=-sgn(wpn.dir-2)*4
             else
                 boss.kb_y=-sgn(wpn.dir-4)*4
             end
+            add_splat()
             add(bloods,blood:new({
                 x=boss.x,
                 y=boss.y+4,

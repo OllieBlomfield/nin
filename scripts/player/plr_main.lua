@@ -33,7 +33,7 @@ function player_init(pos)
         decel = 0.1,
         jp_buffer=0,
         wgt = 0, --checks if just wall jumped {time since jump, jump direction}
-        state = 0, --0 for idle, 1 for running, 2 for pivot, 3 for jumping, 4 for falling, 5 for sliding
+        state = 0, --used for animation. 0 for idle, 1 for running, 2 for pivot, 3 for jumping, 4 for falling, 5 for sliding
         hp = 1,
         spl_t=0,
         spl_am=0,
@@ -71,29 +71,26 @@ function player_update()
     if plr.respawn_state==0 then
         plr_movement_update()
         player_mele_update()
-    elseif plr.respawn_state<3 then
+    elseif plr.respawn_state<4 then
         plr.respawn_time+=1
-        screen_shake()
         if btnp(5) and plr.respawn_time>20 then plr_respawn() end
+        plr.sp=25
         if plr.respawn_state==1 then
-            plr.vx=-sgn(plr.vx)
+            plr.vx=-sgn(plr.vx)*0.8
             plr.vy=1
             plr.sp=25
-            plr.y-=plr.vy
-            plr.respawn_state=2
-        elseif plr.respawn_state==2 then
-            plr.vx*=0.9
-            plr.vy = max(plr.vy-0.1, MAX_Y_DECEL)
-            if collide_map(plr,"down",0) then 
-                plr.sp=26
-                plr.vy=0
-                respawn_state=3
-            end
-            if collide_map(plr,"left",2) or collide_map(plr,"right",2) then
-                plr.vx=0
-            end
+            plr.respawn_state=1.1
+        elseif plr.respawn_state<2 and plr.respawn_state>1 then
+            if t%10>5 then plr.spl_pal={8,8,8} end
+            plr.respawn_state=min(2,plr.respawn_state+0.05)
+            if plr.vx>0 then plr.vx=max(plr.vx-0.03,0.1) else plr.vx=min(plr.vx+0.03,-0.1) end
+            plr.vy=max(0.1,plr.vy-0.1)
             plr.x+=plr.vx
             plr.y-=plr.vy
+        elseif flr(plr.respawn_state)==2 then
+            shake=3
+            add_bludsplosion(plr.x,plr.y)
+            plr.respawn_state=3
         end
     else
         if btnp(4) then 
@@ -111,4 +108,9 @@ function plr_respawn()
         player_init({16,112})
     end
     level_load()
+end
+
+function add_splat()
+    plr.spl_am=min(3,plr.spl_am+1)
+    plr.spl_t = 240
 end

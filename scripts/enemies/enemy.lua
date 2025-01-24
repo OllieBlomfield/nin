@@ -163,7 +163,7 @@ function update_en_vy(obj)
 end
 
 function can_see_plr(obj, dir)
-    if obj.y-16<= plr.y and obj.y+8 >= plr.y then
+    if obj.y-16<= plr.y and obj.y+8 >= plr.y and plr.respawn_state==0 then
         if dir > 0 and (obj.x <= plr.x and obj.x + obj.sight_range >= plr.x) and not collide_map_raycast(plr,obj) then
             return true
         elseif dir < 0 and (obj.x >= plr.x and obj.x - obj.sight_range <= plr.x) and not collide_map_raycast(plr,obj) then

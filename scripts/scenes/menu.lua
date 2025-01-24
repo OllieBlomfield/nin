@@ -26,8 +26,8 @@ fadeTable={ --from https://kometbomb.net/pico8/fadegen.html
 
 function menu_update()
     t+=1
-    if start>0 then start+=1 end
-    if btnp(5) then start=1 end
+    if start>0 then start+=1
+    elseif btnp(5) then start=1 end
     if start>90 then pal() level_init() end
 end
 
@@ -39,7 +39,7 @@ function menu_draw()
     rectfill(0,0,128,119,0)
     rect(0,0,127,127,7)
     draw_logo(35,40)
-    print("demo v1",35,74)
+    print("demo v1.1",35,74)
     if t%100<50 and start==0 then print("❎escape",48,80,7) end
     if start>45 then fade(start-45) end
 end

@@ -65,12 +65,6 @@ function player_draw()
         sspr(sx,sy,8,8,plr.x,plr.y,plr.dr_w,plr.dr_h, plr.vx < 0 or collide_map(plr, "left", 0))
         weapon_draw()
     end
-    --if plr.inv>0 then circ(plr.x+4,plr.y+4,5,7) end
     
-    if plr.respawn_state==2 then
-        rect(41,59,85,69,7)
-        rectfill(42,60,84,68,0)
-        print("x to retry",44,62,7)
-    end
     main_pal()
 end

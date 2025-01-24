@@ -6,8 +6,8 @@ wpn = {
     attack_anim=false,
     w=17,
     h=10,
-    off_x=10,
-    off_y=0,
+    --off_x=10,
+    --off_y=0,
     drx = 0,
     dry = 0,
     dir = 0, --0/1 right, 2 left, 3 down, 4 up
@@ -45,11 +45,6 @@ function player_mele_update()
             wpn.sp=56
         end
 
-        --[[if btn(3) then
-            wpn.dir = 3
-            wpn.sp=56
-        end--]]
-
         if plr.gp then
             wpn.dir=3
         end
@@ -75,8 +70,7 @@ function player_mele_update()
         for e in all(enemies) do
             if coll(wpn,e) then
                 damage(e,1)
-                plr.spl_am=min(3,plr.spl_am+1)
-                plr.spl_t = 240
+                add_splat()
             end
         end
     end
@@ -112,6 +106,7 @@ function plr_attack_anim()
     end
 end
 
+--unused
 function closest_to_plr(lst)
     local min_dist = 0
     min_obj = lst[1]

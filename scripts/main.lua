@@ -7,7 +7,6 @@ function _draw() draw() end
 --Fix collision (make more efficient and fix jump x collision bug)
 --Fix blood spawning issue after respawn (might be fixed not sure)
 --Fix respawn points
---fix blood splat glitch
 
 
 --EXPORT GAME.HTML -P CRT
