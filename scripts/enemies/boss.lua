@@ -11,7 +11,7 @@ function boss_init()
         prev_hp=0,
         hb_w=-1,
         dmged=0,
-        midcol=0,
+        midcol=0, --color of the 
         draw=true,
         spd=1
     }

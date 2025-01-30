@@ -25,6 +25,7 @@ function scan_screen()
             elseif s==98 then add_object(switch,sx*8,sy*8,8,8)
             elseif s==85 then add_object(switch_block,sx*8,sy*8,s)
             elseif s==86 then add_object(switch_block,sx*8,sy*8,s)
+            elseif s==73 then add_object(spring,sx*8,sy*8,8,8,1)
             end
         end
     end

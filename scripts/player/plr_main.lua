@@ -46,6 +46,7 @@ function player_init(pos)
         dropped=false,
     }
 
+    wpn_init()
     plr_dust = {}
 end
 
@@ -72,6 +73,7 @@ function player_update()
         plr_movement_update()
         player_mele_update()
     elseif plr.respawn_state<4 then
+        wpn.attacking=false
         plr.respawn_time+=1
         if btnp(5) and plr.respawn_time>20 then plr_respawn() end
         plr.sp=25

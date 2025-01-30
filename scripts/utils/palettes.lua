@@ -1,4 +1,4 @@
-pals={{7,0,5,8},{0,7,6,8},{11,0,3,7},{14,10,13,2}}
+pals={{7,0,5,8},{0,7,6,8},{139,0,3,11},{14,10,13,2}}
 pal_c=1
 --custom pallette reset function
 function main_pal()

@@ -1,4 +1,5 @@
-wpn = {
+function wpn_init() 
+    wpn = {
     x=0,
     y=0,
     sp=50,
@@ -17,6 +18,7 @@ wpn = {
     hor_anim={50,51,52,53,54,55},
     frame=1,
 }
+end
 
 function player_mele_update()
     if plr.damaged and plr.inv == 0 then
