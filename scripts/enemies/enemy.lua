@@ -124,13 +124,13 @@ function animate_enemy(obj)
         if t%30 > 15 then
             obj.sp=18
         else
-            obj.sp=17
+            obj.sp=19
         end
     elseif obj.state==2 then
         if t%18 > 9 then
             obj.sp=18
         else
-            obj.sp=17
+            obj.sp=19
         end
     end
 end

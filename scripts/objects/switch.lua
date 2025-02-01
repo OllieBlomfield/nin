@@ -6,7 +6,6 @@ switch_block={
         if switch_solid==-1 then fset(86,7) else fset(86,128) end
     end,
     draw=function(self)
-        --if switch_solid==1 then pal(5,8) end
         if fget(self.h,7) then pal(8,5) end
         spr(self.h,self.x,self.y)
         pal(8,8)

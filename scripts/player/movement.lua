@@ -12,7 +12,7 @@ function plr_movement_update()
         plr.x=128
         level_load()
     end
-    if plr.y<0 then
+    if plr.y<0 and my>0   then
         my-=16
         plr.y=128
         level_load()

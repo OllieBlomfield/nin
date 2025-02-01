@@ -1,12 +1,12 @@
 spring={
     update=function(self) 
-        if coll(plr,self) then
+        if coll(plr,self) and plr.respawn_state==0 then
             self.frame=0
             if plr.gp then
                 plr.vy=6
                 plr.gp=false
             else
-                plr.vy=4.1
+                plr.vy=4.4
             end
         end
     end,
