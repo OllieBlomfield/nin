@@ -1,31 +1,50 @@
 fire_cols={8,8,8,8,8,7,7,7}
 fire={}
 
-function add_fire(x,y)
-    for i=1,20 do
-        add(fire,{
-            x=x*(i/2),
-            y=y+rnd(2),
-            og_x=x+(i/2),
-            og_y=y,
-            c=8,
-            l=60,
-            ep=5+x
-        })
+function fire_add(x,y)
+    if t%2==0 then
+        for i=1,5 do
+            add(fire,{
+                x=x+rnd(4),
+                y=y+rnd(6),
+                c=7,
+                r=rnd(2.5),
+                l=18,
+                spd=1+rnd(2)
+            })
+        end
     end
 end
 
 function fire_update()
-    for f in all(fire) do
-        f.y-=0.2
-        f.x+=rnd(2)-1
-        f.l-=1
-        if f.l==0 then
-            f.x=f.og_x
-            f.y=f.og_y+rnd(2)
-            f.c=8
-            f.l=60
-            f.ep=5+f.og_x
+
+    if t%2==0 then 
+        --[[for i=1,5 do
+            add(fire,{
+                x=x+rnd(4),
+                y=y+rnd(6),
+                c=7,
+                r=rnd(2.5),
+                l=18,
+                spd=1+rnd(2)
+            })
+        end--]]
+    --end
+        for f in all(fire) do
+            f.y-=f.spd/2.8
+            f.l-=1
+            f.r-=0.1
+            --f.x+=1
+            if f.l<16 then 
+                f.c=8
+            end 
+            if f.l<9 then 
+                f.c=4
+            end
+            --[[if f.l<3 then
+                f.c=6
+            end--]]
+            if f.l<0 then del(fire,f) end
         end
     end
 end
