@@ -15,7 +15,6 @@ enemy = {
     alert=false,
     hp = 1,
     d = 1,
-    --anim_state=0,
     og_state = 1,
     state = 1, --0 for idle, 1 for patrolling, 2 for chasing, 3 for attacking
 
@@ -48,12 +47,6 @@ enemy = {
                 --self.chase_time=120
                 self.state = 1
             end
-            --still chasing but cannot find
-            --[[if self.chase_time > 0 then
-                
-                self.chase_time-=1
-                if self.chase_time <= 0 then self.state = self.og_state end
-            end--]]
         end
         if self.vx < 0 then
             if collide_map(self,"left",2) then
@@ -65,7 +58,7 @@ enemy = {
             end
         end
 
-        --logic regarless of state
+        --logic regardless of state
         if self.hp <= 0 then
             add(bloods,blood:new({
                 x=self.x+4,
@@ -83,7 +76,7 @@ enemy = {
         if self.vx > 0 then 
             self.d = 1 
         elseif self.vx < 0 then 
-            self.d = -1 
+            self.d = -1
         end
         
 

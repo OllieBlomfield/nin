@@ -1,8 +1,5 @@
 function player_init(pos)
-    SLIDE_DECEL = 0.02
-    SLOW_DECEL = 0.08
-    FAST_DECEL = 0.25
-    MAX_Y_DECEL = -1.3
+    SLIDE_DECEL,SLOW_DECEL,FAST_DECEL,MAX_Y_DECEL = 0.02,0.08,0.25,-1.3
     GROUNDPOUND_Y_VEL=-3
     MAX_X_VELOCTY = 1.1
     run_anim_delay = {30,30,30,20,20,15,15,15}
@@ -44,6 +41,7 @@ function player_init(pos)
         dr_h=8, -- draw height and draw width
         temp_collect=false,
         dropped=false,
+        sprung=0
     }
 
     wpn_init()

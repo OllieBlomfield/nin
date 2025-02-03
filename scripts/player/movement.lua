@@ -44,8 +44,10 @@ function plr_movement_update()
         update_player_x_velocity(-1)
     end
 
+    plr.sprung=max(0,plr.sprung-1)
+
     if plr.jumped then
-        if btn(4) then 
+        if btn(4) or plr.sprung>0 then
             plr.decel=SLOW_DECEL
         else
             plr.jumped = false
@@ -136,6 +138,7 @@ function plr_movement_update()
             --if not btn(3) then plr.gp=false end
             plr.gp=false
             plr.jumped=false
+            plr.sprung=0
         end
     end
 

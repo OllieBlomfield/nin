@@ -3,11 +3,13 @@ spring={
         if coll(plr,self) and plr.respawn_state==0 then
             self.frame=0
             if plr.gp then
-                plr.vy=6
+                plr.vy=3.8
                 plr.gp=false
             else
-                plr.vy=4.4
+                plr.vy=2.4
             end
+            plr.sprung=20
+            plr.jumped=true
         end
     end,
     draw = function(self)

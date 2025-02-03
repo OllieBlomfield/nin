@@ -25,8 +25,6 @@ end
 function snow_draw()
     snow_update()
     for s in all(snow) do
-        --if s.s>8 then rectfill(s.x,s.y,s.x+1,s.y+1,7)
-        --else pset(s.x,s.y,7) end
         pset(s.x,s.y,7)
     end
 end

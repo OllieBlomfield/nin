@@ -21,6 +21,7 @@ levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("â¬
 levels[24]={function() switch_solid=1 end,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
 levels[27]={snow_init,snow_draw}
+levels[30]={snow_init,snow_draw,{120,20}}
 levels[31]={snow_init ,function() snow_draw() fire_add(26,68) fire_add(58,34) end}
 levels[32]={snow_init,snow_draw,{20,48}}
 function level_load()
@@ -50,7 +51,7 @@ function level_init(lvl)
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=96
+    mx=112
     my=0
     fade_in=16
     player_init({16,112})
@@ -94,12 +95,9 @@ function level_draw()
     for b in all(bloods) do b:draw() end
 
     map(mx,my,0,0,16,16,0x40)
-    --rectfill(0,0,7,6,0) print(lvl,0,0,7)
-    
 
     for c in all(collects) do pset(c.x,c.y,7) end
     for f in all(fire) do circfill(f.x,f.y,f.r,f.c) end
-
     
     for d in all(drip) do 
         pset(d.x,d.y,8) 

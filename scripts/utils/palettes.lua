@@ -7,9 +7,6 @@ function main_pal()
     pal(0,pals[pal_c][2],1) --bg2
     pal(5,pals[pal_c][3],1) --bg1
     pal(8,pals[pal_c][4],1) --blud
-    --[[pal(7,10,1)
-    pal(0,14,1)
-    pal(8,12,1)--]]
     pal(4,-8,1)
     palt(0, false)
     palt(12, true)
