@@ -1,6 +1,6 @@
 levels={} --extra level data for screens that need it.
 for i=1,32 do levels[i]={0,0} end
-levels[1] = {function() if plr.x==16 then plr.respawn_state=4 plr.sp=26 end end,function() if plr.respawn_state==4 then print("🅾️",16,105 + 3*sin(t/170),7) end end,{15,112}}
+levels[1] = {function() if plr.x==15 then plr.respawn_state=4 plr.sp=26 end end,function() if plr.respawn_state==4 then print("🅾️",16,105 + 3*sin(t/170),7) end end,{15,112}}
 levels[2]={function() add_blood_drip(55,7) end, function() line(54,-1,55,6,8) print("🅾️ to jump",13,100,5) end}
 levels[4]={function() add_enemy(16,88,0) add_enemy(104,96,0,-1) end,0,{102,8}}
 levels[5]={function() add_enemy(8,8,0) add_enemy(112,80,0,-1) end,0}
@@ -41,22 +41,23 @@ function level_load()
     plr_dust = {}
     health_bar=false
 
-
     if levels[lvl][1]!=0 then levels[lvl][1]() end
     
     scan_screen()
 end
 
-function level_init(lvl)
+function level_init()
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=112
-    my=0
+    mx=0
+    my=48
     fade_in=16
-    player_init({16,112})
+    player_init({15,112})
     level_load()
-    
+    if #levels[lvl] > 2 then
+        plr.x,plr.y=levels[lvl][3][1],levels[lvl][3][2]
+    end 
 end
 
 function level_update()
