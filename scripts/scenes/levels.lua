@@ -6,21 +6,22 @@ levels[4]={function() add_enemy(16,88,0) add_enemy(104,96,0,-1) end,0,{102,8}}
 levels[5]={function() add_enemy(8,8,0) add_enemy(112,80,0,-1) end,0}
 levels[6]={function() add_enemy(88,32,0) end,0}
 levels[7]={0,0,{8,56}}
-levels[8]={function() switch_solid=1 end,0,{8,56}}
+levels[8]={0,0,{8,56}}
 levels[9]={0,0,{86,112}}
 levels[10]={0,0,{2,8}}
 levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,32,0,-1) end,function() print("❎ to kill",17,96,8) end,{20,8}}
 levels[12]={function() add_enemy(60,64,0,-1) add_enemy(16,112,0) end,function() print("⬇️",20,30+2*sin(t/200),7) end,{2,20}}
-levels[13]={function() switch_solid=-1 end,0,{106,8}}
+levels[13]={0,0,{106,8}}
 levels[14]={boss_init,boss_draw}
-levels[15]={function() switch_solid=1 end,0,{106,8}}
-levels[16]={function() switch_solid=-1 end,0,{112,112}}
-levels[21]={function() switch_solid=1 for i=1,11 do add_enemy(i*10,8) end end,0}
-levels[22]={function() switch_solid=-1 add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) end,0}
+levels[15]={0,0,{106,8}}
+levels[16]={0,0,{112,112}}
+levels[21]={function() for i=1,11 do add_enemy(i*10,8) end end,0}
+levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) end,0}
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
-levels[24]={function() switch_solid=1 end,0,{96,112}}
+levels[24]={0,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
 levels[27]={snow_init,snow_draw}
+levels[29]={snow_init,snow_draw,{120,8}}
 levels[30]={snow_init,snow_draw,{120,20}}
 levels[31]={snow_init ,function() snow_draw() fire_add(26,68) fire_add(58,34) end}
 levels[32]={snow_init,snow_draw,{20,48}}
@@ -28,7 +29,6 @@ function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     t = 0
     shake=0
-
     enemies={}
     blood.lns = {}
     bloods={}
@@ -42,7 +42,8 @@ function level_load()
     health_bar=false
 
     if levels[lvl][1]!=0 then levels[lvl][1]() end
-    
+    switch_solid=-1
+
     scan_screen()
 end
 
@@ -50,8 +51,8 @@ function level_init()
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=0
-    my=48
+    mx=112
+    my=0
     fade_in=16
     player_init({15,112})
     level_load()

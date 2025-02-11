@@ -19,7 +19,7 @@ function plr_pal()
             plr.spl_pal[i]=8
         end
     end
-    pal(15,plr.spl_pal[1])  
+    pal(15,plr.spl_pal[1])
     pal(13,plr.spl_pal[2])
     pal(9,plr.spl_pal[3])
 end

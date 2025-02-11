@@ -3,9 +3,13 @@
 function plr_movement_update()
     --blood logic (needs to be moved later)
     if plr.x > 128 then
-        mx+=16
-        plr.x=0
-        level_load()
+        if mx<112 then
+            mx+=16
+            plr.x=0
+            level_load()
+        else
+            plr.respawn_state=1
+        end
     end
     if plr.x<0 then
         mx-=16
@@ -19,7 +23,7 @@ function plr_movement_update()
     end
     if plr.y>128 then
         if my==48 then
-            plr.respawn_state = 1
+            plr.respawn_state=1
         else
             my+=16
             plr.y=0

@@ -73,7 +73,9 @@ function player_update()
     elseif plr.respawn_state<4 then
         wpn.attacking=false
         plr.respawn_time+=1
-        if btnp(5) and plr.respawn_time>20 then plr_respawn() end
+        if btnp(5) and plr.respawn_time>20 and fade_in<=0 then fade_in+=2 end
+        if fade_in>0 then fade_in+=2 end
+        if fade_in>=16 then plr_respawn() end
         plr.sp=25
         if plr.respawn_state==1 then
             plr.vx=-sgn(plr.vx)*0.8
@@ -89,11 +91,16 @@ function player_update()
             plr.y-=plr.vy
         elseif flr(plr.respawn_state)==2 then
             shake=3
-            add_bludsplosion(plr.x,plr.y)
+            --add_bludsplosion(plr.x,plr.y)
+            add(bloods,blood:new({
+                x=plr.x+4,
+                y=plr.y+4,
+                lines=true,
+            },40))
             plr.respawn_state=3
         end
     else
-        if btnp(4) then 
+        if btnp(4) then
             plr.respawn_state=0
             plr.vy=plr.jumpfrc
         end
