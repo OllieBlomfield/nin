@@ -9,12 +9,13 @@ levels[7]={0,0,{8,56}}
 levels[8]={0,0,{8,56}}
 levels[9]={0,0,{86,112}}
 levels[10]={0,0,{2,8}}
-levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,32,0,-1) end,function() print("❎ to kill",17,96,8) end,{20,8}}
+levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,32,0,-1) end,function() print("❎ to kill",17,97+2*sin(t/170),8) end,{20,8}}
 levels[12]={function() add_enemy(60,64,0,-1) add_enemy(16,112,0) end,function() print("⬇️",20,30+2*sin(t/200),7) end,{2,20}}
 levels[13]={0,0,{106,8}}
 levels[14]={boss_init,boss_draw}
 levels[15]={0,0,{106,8}}
 levels[16]={0,0,{112,112}}
+levels[19]={function() add_enemy(16,40,0,-1) end,0,{112,112}}
 levels[20]={function() add_enemy(8,80,0,1) end,0,{96,8}}
 levels[21]={function() for i=1,11 do add_enemy(i*10,8) end end,0}
 levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,112,0,1) end,0}
@@ -53,8 +54,8 @@ function level_init()
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=0
-    my=48
+    mx=32
+    my=16
     fade_in=16
     player_init({15,112})
     level_load()
