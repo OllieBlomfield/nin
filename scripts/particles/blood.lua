@@ -92,7 +92,7 @@ function drip_update()
     end
 end
 
-function add_bludsplosion(x,y)
+--[[function add_bludsplosion(x,y)
     for i=1,40 do add(bs,{
         x=x+rnd(8)-4,
         y=y+rnd(4)-2,
@@ -111,4 +111,4 @@ function bludsplosion_update()
         b.l-=1
     end
 end
-
+--]]

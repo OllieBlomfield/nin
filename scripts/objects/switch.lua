@@ -14,7 +14,7 @@ switch_block={
 
 switch ={
     update=function(self)
-        if wpn.attacking and coll(wpn,self) and switch_delay==0 and mget(mx+(plr.x/16),my+(plr.y/16))!=85 then 
+        if wpn.attacking and coll(wpn,self) and switch_delay==0 then 
             switch_solid*=-1
             switch_delay=15
         end
@@ -23,3 +23,5 @@ switch ={
         if switch_solid==1 then spr(99,self.x,self.y) else spr(98,self.x,self.y) end
     end
 }
+
+--and mget(mx+(plr.x/16),my+(plr.y/16))!=85

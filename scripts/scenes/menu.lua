@@ -60,7 +60,7 @@ function draw_logo(x,y)
         if start>2 then pal(14,8) end
         if start>3 then pal(15,8) end
     end
-    sspr(68,32,5,16,x+25,y,10,32)
+    sspr(68,32,4,16,x+25,y,8,32)
     sspr(56,32,12,16,x+34,y,24,32)
 end
 

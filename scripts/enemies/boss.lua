@@ -1,6 +1,6 @@
 function boss_init()
     boss={
-        state=0, --0 intro, 1 fight, 2 death
+        state=-1, --0 intro, 1 fight, 2 death
         x=-30,
         y=64,
         eye_off_x=0,
@@ -20,10 +20,14 @@ function boss_init()
 end
 
 function boss_update()
-    boss_t+=1*boss.spd
+    if boss.state>=0 then boss_t+=1*boss.spd end
+    if plr.x<110 and boss.state==-1 then
+        set_boss_walls(14)
+        boss.state=0
+    end
     if boss.state==0 then intro_update()
     elseif boss.state==1 then fight_update() 
-    else outro_update() end
+    elseif boss.state==2 then outro_update() end
 end
 
 function boss_draw()
@@ -143,5 +147,13 @@ function outro_update()
                 lines=true,
             },100,30,0.3))
         else boss.hb_w-=1 end
+    end
+    if boss.hb_w<=0 then set_boss_walls(0) boss.state=3 end
+end
+
+function set_boss_walls(sp)
+    for i=0,6 do 
+        mset(mx+(15*flr(i/3)),my+1+i%3,sp)
+        add_collect(8*(15*flr(i/3)),8*(1+i%3))
     end
 end

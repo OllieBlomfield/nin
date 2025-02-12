@@ -15,12 +15,14 @@ levels[13]={0,0,{106,8}}
 levels[14]={boss_init,boss_draw}
 levels[15]={0,0,{106,8}}
 levels[16]={0,0,{112,112}}
+levels[20]={function() add_enemy(8,80,0,1) end,0,{96,8}}
 levels[21]={function() for i=1,11 do add_enemy(i*10,8) end end,0}
-levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) end,0}
+levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,112,0,1) end,0}
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
 levels[24]={0,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
 levels[27]={snow_init,snow_draw}
+levels[28]={function() snow_init() add_enemy(96,112,0,-1) end,function() snow_draw() fire_add(82,108) fire_add(114,108) end,{120,16}}
 levels[29]={snow_init,snow_draw,{120,8}}
 levels[30]={snow_init,snow_draw,{120,20}}
 levels[31]={snow_init ,function() snow_draw() fire_add(26,68) fire_add(58,34) end}
@@ -32,7 +34,7 @@ function level_load()
     enemies={}
     blood.lns = {}
     bloods={}
-    bs={}
+    --bs={}
     drip={}
     objects={}
     collects={}
@@ -51,8 +53,8 @@ function level_init()
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=112
-    my=0
+    mx=0
+    my=48
     fade_in=16
     player_init({15,112})
     level_load()
@@ -72,7 +74,7 @@ function level_update()
         e:update()
     end
 
-    bludsplosion_update()
+    --bludsplosion_update()
 
     fire_update()
     
@@ -111,9 +113,9 @@ function level_draw()
     if levels[lvl][2] != 0 then levels[lvl][2]() end
     for o in all(objects) do if o.draw!=0 then o:draw() end end
     --for e in all(enemies) do e:draw() end
-    for b in all(bs) do 
-        if b.s>1 then rectfill(b.x,b.y,b.x+1,b.y+1,8) else pset(b.x,b.y,8) end
-    end
+    --for b in all(bs) do 
+    --    if b.s>1 then rectfill(b.x,b.y,b.x+1,b.y+1,8) else pset(b.x,b.y,8) end
+    --end
     if plr.respawn_state<2 or plr.respawn_state==4 then 
         player_draw() 
     else
