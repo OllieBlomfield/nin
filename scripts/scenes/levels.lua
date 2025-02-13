@@ -12,7 +12,7 @@ levels[10]={0,0,{2,8}}
 levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,32,0,-1) end,function() print("❎ to kill",17,97+2*sin(t/170),8) end,{20,8}}
 levels[12]={function() add_enemy(60,64,0,-1) add_enemy(16,112,0) end,function() print("⬇️",20,30+2*sin(t/200),7) end,{2,20}}
 levels[13]={0,0,{106,8}}
-levels[14]={boss_init,boss_draw}
+levels[14]={boss_init,boss_draw,{60,112}}
 levels[15]={0,0,{106,8}}
 levels[16]={0,0,{112,112}}
 levels[19]={function() add_enemy(16,40,0,-1) end,0,{112,112}}
@@ -22,6 +22,7 @@ levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
 levels[24]={0,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
+levels[26]={snow_init,function() snow_draw() fire_add(18,14) fire_add(106,14) draw_hb(86,10,10,0) end,{60,104}}
 levels[27]={snow_init,snow_draw}
 levels[28]={function() snow_init() add_enemy(96,112,0,-1) end,function() snow_draw() fire_add(82,108) fire_add(114,108) end,{120,16}}
 levels[29]={snow_init,snow_draw,{120,8}}
@@ -54,8 +55,8 @@ function level_init()
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=32
-    my=16
+    mx=64
+    my=32
     fade_in=16
     player_init({15,112})
     level_load()

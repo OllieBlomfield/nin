@@ -1,5 +1,5 @@
 function player_init(pos)
-    SLIDE_DECEL,SLOW_DECEL,FAST_DECEL,MAX_Y_DECEL = 0.02,0.08,0.25,-1.3
+    SLIDE_DECEL,SLOW_DECEL,FAST_DECEL,MAX_Y_DECEL = 0.015,0.08,0.25,-1.3
     GROUNDPOUND_Y_VEL=-3
     MAX_X_VELOCTY = 1.1
     run_anim_delay = {30,30,30,20,20,15,15,15}
@@ -75,7 +75,7 @@ function player_update()
         plr.respawn_time+=1
         if btnp(5) and plr.respawn_time>20 and fade_in<=0 then fade_in+=2 end
         if fade_in>0 then fade_in+=2 end
-        if fade_in>=16 then plr_respawn() end
+        if fade_in>=20 then plr_respawn() end
         plr.sp=25
         if plr.respawn_state==1 then
             plr.vx=-sgn(plr.vx)*0.8

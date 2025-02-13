@@ -1,8 +1,10 @@
 function menu_init()
     t=0
     start=0
+    menu_state=0
     update=menu_update
     draw=menu_draw
+    fade_in=15
 end
 
 fadeTable={ --from https://kometbomb.net/pico8/fadegen.html
@@ -26,22 +28,17 @@ fadeTable={ --from https://kometbomb.net/pico8/fadegen.html
 
 function menu_update()
     t+=1
-    if start>0 then start+=1
-    elseif btnp(5) then start=1 end
-    if start>90 then pal() level_init() end
+    if menu_state==1 then
+        if start>0 then start+=1
+        elseif btnp(5) then start=1 end
+        if start>90 then pal() level_init() end
+    end
 end
 
 function menu_draw()
-    cls()
-    palt(0, false)
-    palt(12, true)
-    map(0,48)
-    rectfill(0,0,128,119,0)
-    rect(0,0,127,127,7)
-    draw_logo(35,40)
-    print("demo v1.1",35,74)
-    if t%100<50 and start==0 then print("❎escape",48,80,7) end
-    if start>45 then fade(start-45) end
+    fade(fade_in)
+    if menu_state==0 then credit_draw()
+    else start_draw() end
 end
 
 function draw_logo(x,y)
@@ -49,17 +46,15 @@ function draw_logo(x,y)
         pal(8,7)
         pal(14,7)
         pal(15,7)
+        if start>0 then pal(8,8) end
+        if start>2 then pal(14,8) end
+        if start>3 then pal(15,8) end
     else
         pal(8,fadeTable[7][start-44])
         pal(14,fadeTable[7][start-44])
         pal(15,fadeTable[7][start-44])
     end
     sspr(56,32,12,16,x,y,24,32)
-    if start<44 then
-        if start>0 then pal(8,8) end
-        if start>2 then pal(14,8) end
-        if start>3 then pal(15,8) end
-    end
     sspr(68,32,4,16,x+25,y,8,32)
     sspr(56,32,12,16,x+34,y,24,32)
 end
@@ -74,5 +69,41 @@ function fade(i)
             pal(c,fadeTable[c+1][flr(i+1)])
         end
     end
+end
+
+function credit_draw()
+    cls()
+    if t>190 then fade_in=(t-160)/2 end
+    if t>230 then menu_state=1 end
+    if t<130 then 
+        pal(8,7)
+        pal(14,7) 
+        pal(11,7)
+    else
+        pal(8,8)
+        if t>132 then pal(14,8) else pal(14,7) end
+        if t>134 then pal(11,8) else pal(11,7) end
+    end
+    print("by ob",55,60,7)
+    if t<54 then
+        fade_in=max(16-((t-20)/2),0)
+    elseif t<198 then
+        spr(120,55,60)
+        spr(121,67,60)
+    end
+end
+
+function start_draw()
+    cls()
+    fade_in=max(16-(t-230)/2,0)
+    palt(0, false)
+    palt(12, true)
+    map(0,48)
+    rectfill(0,0,128,119,0)
+    rect(0,0,127,127,7)
+    draw_logo(35,40)
+    print("demo v1.1",35,74)
+    if t%100<50 and start==0 then print("❎escape",48,80,7) end
+    if start>45 then fade_in=start-45 end
 end
 

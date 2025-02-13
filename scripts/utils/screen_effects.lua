@@ -16,7 +16,7 @@ function screen_shake()
 end
 
 --scales some text, used for title. From bbs morningtoast
-function scale_text(str,x,y,c,scale)
+--[[function scale_text(str,x,y,c,scale)
 	memcpy(0x4300,0x0,0x0200)
 	memset(0x0,0,0x0200)
 	poke(0x5f55,0x00)
@@ -30,4 +30,4 @@ function scale_text(str,x,y,c,scale)
 	pal()
 
 	memcpy(0x0,0x4300,0x0200)
-end
+end--]]
