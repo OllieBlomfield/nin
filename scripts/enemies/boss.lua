@@ -21,7 +21,7 @@ end
 
 function boss_update()
     if boss.state>=0 then boss_t+=1*boss.spd end
-    if plr.x<110 and boss.state==-1 then
+    if plr.x<110 and boss.state==-1 and not cleared then
         set_boss_walls(14)
         boss.state=0
     end
@@ -148,7 +148,7 @@ function outro_update()
             },100,30,0.3))
         else boss.hb_w-=1 end
     end
-    if boss.hb_w<=0 then set_boss_walls(0) boss.state=3 end
+    if boss.hb_w<=0 then set_boss_walls(0) boss.state=3 levels[lvl][4]=true end
 end
 
 function set_boss_walls(sp)

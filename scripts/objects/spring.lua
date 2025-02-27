@@ -9,6 +9,7 @@ spring={
                 plr.vy=2.4
             end
             plr.sprung=20
+            plr.grounded=false
             plr.jumped=true
         end
     end,

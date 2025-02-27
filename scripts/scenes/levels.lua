@@ -15,26 +15,31 @@ levels[13]={0,0,{106,8}}
 levels[14]={boss_init,boss_draw,{60,112}}
 levels[15]={0,0,{106,8}}
 levels[16]={0,0,{112,112}}
-levels[19]={function() add_enemy(16,40,0,-1) end,0,{112,112}}
+levels[17]={0,0,{112,112}}
+levels[18]={0,0,{112,112}}
+levels[19]={function() add_enemy(16,48,0,-1) end,0,{112,112}}
 levels[20]={function() add_enemy(8,80,0,1) end,0,{96,8}}
 levels[21]={function() for i=1,11 do add_enemy(i*10,8) end end,0}
 levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,112,0,1) end,0}
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
 levels[24]={0,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
-levels[26]={snow_init,function() snow_draw() fire_add(18,14) fire_add(106,14) draw_hb(86,10,10,0) end,{60,104}}
+levels[26]={snow_init,function() snow_draw() fire_add(18,6) fire_add(2,22) fire_add(106,6) fire_add(122,22) draw_hb(86,10,10,0) end,{60,104}}
 levels[27]={snow_init,snow_draw}
 levels[28]={function() snow_init() add_enemy(96,112,0,-1) end,function() snow_draw() fire_add(82,108) fire_add(114,108) end,{120,16}}
 levels[29]={snow_init,snow_draw,{120,8}}
 levels[30]={snow_init,snow_draw,{120,20}}
 levels[31]={snow_init ,function() snow_draw() fire_add(26,68) fire_add(58,34) end}
 levels[32]={snow_init,snow_draw,{20,48}}
+for i=1,32 do levels[i][4]=false end
 function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
+    cleared=levels[lvl][4]
     t = 0
     shake=0
     enemies={}
     blood.lns = {}
+    blood.splat = {}
     bloods={}
     --bs={}
     drip={}
@@ -46,6 +51,8 @@ function level_load()
     health_bar=false
 
     if levels[lvl][1]!=0 then levels[lvl][1]() end
+    en_at_start=#enemies>0 --stores if there were any enemies at the start of the screen
+    rsp = levels[lvl][3] or {16,112}
     switch_solid=-1
 
     scan_screen()
@@ -55,14 +62,16 @@ function level_init()
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=64
-    my=32
+    mx=0
+    my=16
     fade_in=16
-    player_init({15,112})
+    lvl = 1+(mx/16)+(((48-my)/16)*8)
+    rsp = levels[lvl][3] or {16,112}
+    player_init(rsp)
     level_load()
-    if #levels[lvl] > 2 then
-        plr.x,plr.y=levels[lvl][3][1],levels[lvl][3][2]
-    end 
+    
+    --if levels[lvl][3] then plr.x,plr.y=levels[lvl][3][1],levels[lvl][3][2] end
+
 end
 
 function level_update()
@@ -74,6 +83,9 @@ function level_update()
     
     for e in all(enemies) do
         e:update()
+    end
+    if en_at_start and #enemies==0 then
+        levels[lvl][4]=true
     end
 
     --bludsplosion_update()
@@ -127,6 +139,9 @@ function level_draw()
     end
 
     for e in all(enemies) do e:draw() end
+    print(cleared,10,10,14)
+    print(rsp[1])
+    print(rsp[2])
     main_pal()
 end
 

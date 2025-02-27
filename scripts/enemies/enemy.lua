@@ -168,13 +168,15 @@ end
 
 
 function add_enemy(x,y,st,d)
-    st = st or 1
-    d = d or 1
-    add(enemies, enemy:new({
-        x=x,
-        y=y,
-        og_state=st,
-        state=st,
-        d=d
-    }))
+    if not cleared then
+        st = st or 1
+        d = d or 1
+        add(enemies, enemy:new({
+            x=x,
+            y=y,
+            og_state=st,
+            state=st,
+            d=d
+        }))
+    end
 end

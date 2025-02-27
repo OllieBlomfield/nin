@@ -44,6 +44,8 @@ function player_init(pos)
         sprung=0
     }
 
+    if plr.x>64 then plr.vx=-0.001 end
+
     wpn_init()
     plr_dust = {}
 end
@@ -109,11 +111,12 @@ end
 
 
 function plr_respawn()
-    if #levels[lvl] > 2 then
+    --[[if levels[lvl][3] then
         player_init({levels[lvl][3][1],levels[lvl][3][2]})
     else
         player_init({16,112})
-    end
+    end--]]
+    player_init(rsp)
     level_load()
 end
 

@@ -79,7 +79,7 @@ end
 
 function drip_update()
     for d in all(drip) do
-        if not d.fall and t%120==flr(rnd(120)) then d.fall = true end
+        if not d.fall and t%200==flr(rnd(200)) then d.fall = true end
         if d.fall then
             d.vy=max(d.vy+0.01,0.5)
             d.y+=d.vy

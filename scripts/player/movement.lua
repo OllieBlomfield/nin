@@ -115,7 +115,7 @@ function plr_movement_update()
         end
     end
 
-    if not plr.grounded and btnp(3) then 
+    if not plr.grounded and btnp(3) and plr.sprung==0 then 
         plr.gp=true
         plr.vx*= 0.01
     end

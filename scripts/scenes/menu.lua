@@ -46,15 +46,17 @@ function draw_logo(x,y)
         pal(8,7)
         pal(14,7)
         pal(15,7)
-        if start>0 then pal(8,8) end
-        if start>2 then pal(14,8) end
-        if start>3 then pal(15,8) end
     else
         pal(8,fadeTable[7][start-44])
         pal(14,fadeTable[7][start-44])
         pal(15,fadeTable[7][start-44])
     end
     sspr(56,32,12,16,x,y,24,32)
+    if start<44 then
+        if start>0 then pal(8,8) end
+        if start>2 then pal(14,8) end
+        if start>3 then pal(15,8) end
+    end
     sspr(68,32,4,16,x+25,y,8,32)
     sspr(56,32,12,16,x+34,y,24,32)
 end
@@ -95,7 +97,7 @@ end
 
 function start_draw()
     cls()
-    fade_in=max(16-(t-230)/2,0)
+    fade_in=max(16-(t-230),0)
     palt(0, false)
     palt(12, true)
     map(0,48)
