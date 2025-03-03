@@ -41,7 +41,8 @@ function player_init(pos)
         dr_h=8, -- draw height and draw width
         temp_collect=false,
         dropped=false,
-        sprung=0
+        sprung=0,
+        jmp_held=false
     }
 
     if plr.x>64 then plr.vx=-0.001 end
@@ -78,11 +79,11 @@ function player_update()
         if btnp(5) and plr.respawn_time>20 and fade_in<=0 then fade_in+=2 end
         if fade_in>0 then fade_in+=2 end
         if fade_in>=20 then plr_respawn() end
-        plr.sp=25
+        plr.sp=24
         if plr.respawn_state==1 then
             plr.vx=-sgn(plr.vx)*0.8
             plr.vy=1
-            plr.sp=25
+            plr.sp=24
             plr.respawn_state=1.1
         elseif plr.respawn_state<2 and plr.respawn_state>1 then
             if t%10>5 then plr.spl_pal={8,8,8} end

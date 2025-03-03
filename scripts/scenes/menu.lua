@@ -104,7 +104,6 @@ function start_draw()
     rectfill(0,0,128,119,0)
     rect(0,0,127,127,7)
     draw_logo(35,40)
-    print("demo v1.1",35,74)
     if t%100<50 and start==0 then print("❎escape",48,80,7) end
     if start>45 then fade_in=start-45 end
 end

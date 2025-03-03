@@ -1,30 +1,21 @@
 function collide_map(obj,aim,flag)
     --obj = table needs x,y,w,h
     --aim = left,right,up,down
-   
-    local x=obj.x  local y=obj.y
-    local w=obj.w  local h=obj.h
-   
-    local x1=0	 local y1=0
-    local x2=0  local y2=0
+    local x,y,w,h,
+    x1,y1,x2,y2 =
+    obj.x,obj.y,obj.w,obj.h,
+    0,0,0,0
    
     if aim=="left" then
-      x1=x-1  y1=y
-      x2=x    y2=y+h-1
-   
+      x1,y1,x2,y2=x-1,y,x,y+h-1
     elseif aim=="right" then
-      x1=x+w-1    y1=y
-      x2=x+w  y2=y+h-1
-   
+      x1,y1,x2,y2=x+w-1,y,x+w,y+h-1
     elseif aim=="up" then
-      x1=x+2    y1=y-1
-      x2=x+w-3  y2=y
-   
+      x1,y1,x2,y2=x+2,y-1,x+w-3,y
     elseif aim=="down" then
-      x1=x+2      y1=y+h
-      x2=x+w-3    y2=y+h
+      x1,y1,x2,y2=x+2,y+h,x+w-3,y+h
     end
-   
+
     --pixels to tiles
     x1/=8    y1/=8
     x2/=8    y2/=8
@@ -41,15 +32,10 @@ end
 
 --From lazydevs
 function coll(a,b)
-  local a_left=a.x
-  local a_top=a.y
-  local a_right=a.x+a.w-1
-  local a_bottom=a.y+a.h-1
-
-  local b_left=b.x
-  local b_top=b.y
-  local b_right=b.x+b.w-1
-  local b_bottom=b.y+b.h-1
+  local a_left, a_top, a_right, a_bottom,
+  b_left, b_top, b_right, b_bottom = 
+  a.x, a.y, a.x+a.w-1, a.y+a.h-1,
+  b.x, b.y, b.x+b.w-1, b.y+b.h-1
 
   if a_top > b_bottom then return false end
   if b_top > a_bottom then return false end

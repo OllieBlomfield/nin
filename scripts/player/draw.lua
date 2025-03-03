@@ -40,20 +40,8 @@ function update_plr_animation()
         else
             plr.sp = 19
         end
-    elseif plr.state == 2 then
-        plr.sp = 20
-    elseif plr.state == 3 then
-        plr.sp = 21
-    elseif plr.state == 4 then
-        plr.sp = 22
-    elseif plr.state == 5 then
-        plr.sp = 23
-    elseif plr.state == 6 then
-        plr.sp = 25
-    elseif plr.state == 7 then
-        plr.sp=24
-    elseif plr.state==8 then
-        plr.sp=27
+    elseif plr.state>1 then
+        plr.sp=18+plr.state
     end
 end
 

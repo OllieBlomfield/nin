@@ -22,7 +22,7 @@ end
 function boss_update()
     if boss.state>=0 then boss_t+=1*boss.spd end
     if plr.x<110 and boss.state==-1 and not cleared then
-        set_boss_walls(14)
+        set_boss_walls()
         boss.state=0
     end
     if boss.state==0 then intro_update()
@@ -151,9 +151,10 @@ function outro_update()
     if boss.hb_w<=0 then set_boss_walls(0) boss.state=3 levels[lvl][4]=true end
 end
 
-function set_boss_walls(sp)
+function set_boss_walls(off_y)
+    off_y = off_y or 0
     for i=0,6 do 
-        mset(mx+(15*flr(i/3)),my+1+i%3,sp)
-        add_collect(8*(15*flr(i/3)),8*(1+i%3))
+        mset(mx+(15*flr(i/3)),off_y+my+1+i%3,14)
+        add_collect(8*(15*flr(i/3)),(off_y*8)+8*(1+i%3))
     end
 end

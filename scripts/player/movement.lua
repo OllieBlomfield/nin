@@ -1,7 +1,4 @@
-
-
 function plr_movement_update()
-    --blood logic (needs to be moved later)
     if plr.x > 128 then
         if mx<112 then
             mx+=16
@@ -39,8 +36,6 @@ function plr_movement_update()
     mcol_u = collide_map(plr, "up", 1)
     mcol_d = collide_map(plr, "down", 0)
 
-
-    dust_off = 0
     if plr.vx != 0 then plr.vx*=plr.fr end
     if btn(1) and not plr.gp then
         update_player_x_velocity(1)
@@ -62,13 +57,12 @@ function plr_movement_update()
 
     if btnp(4) then plr.jp_buffer = 6 else plr.jp_buffer-=1 end
 
+    if plr.jmp_held and not btn(4) then plr.jmp_held=false end
+
     if (plr.jp_buffer>0) and not plr.jumped and plr.coy_time>0 then
         plr.coy_time=0
-        plr.jp_buffer = 0
-        plr.jump_buffer = false
-        plr.vy = plr.jumpfrc
+        plr_jump()
         plr.grounded = false
-        plr.jumped = true
         for i=1,6 do
             if i < 4 then
                 add_dust(plr.x+rnd(3)-1,plr.y+8,8)
@@ -82,23 +76,17 @@ function plr_movement_update()
     --Wall Jump and slide Logic
     if plr.vy < 0 then
         if mcol_l then
-            --if plr.jp_buffer>0 then
-            if btnp(4) then
-                plr.jp_buffer=0
-                plr.vy = plr.jumpfrc
+            if btnp(4) and not plr.jmp_held then
+                plr_jump()
                 plr.vx = 1
-                plr.jumped = true
                 plr.wgt = WALL_JUMP_MOVE_DELAY
             end
             plr.decel = SLIDE_DECEL
             add_dust(plr.x, plr.y+3,5)
         elseif mcol_r then
-            --if plr.jp_buffer>0 then
-            if btnp(4) then
-                plr.jp_buffer=0
-                plr.vy = plr.jumpfrc
+            if btnp(4) and not plr.jmp_held then
+                plr_jump()
                 plr.vx = -1
-                plr.jumped = true
                 plr.wgt = WALL_JUMP_MOVE_DELAY
             end
             plr.decel = SLIDE_DECEL
@@ -174,12 +162,6 @@ function plr_movement_update()
         plr.coy_time-=1
     end
 
-    --[[if plr.vx < 0.01 and plr.vx > 0 and mcol_r then 
-        plr.x+=((plr.x-1)%8)-1
-    elseif plr.vx < 0 and plr.vx > -0.01 and mcol_l then
-        plr.x-=((plr.x+plr.w+1)%8)-1
-    end--]]
-
     plr.x+=plr.vx
     plr.y-=plr.vy
 
@@ -201,5 +183,12 @@ function update_player_x_velocity(dir)
     else
         plr.vx -= 0.1 * dir
     end
+end
+
+function plr_jump(vx)
+    plr.jmp_held=true
+    plr.vy = plr.jumpfrc
+    plr.jumped = true
+    plr.jp_buffer=0
 end
 

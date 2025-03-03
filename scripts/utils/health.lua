@@ -4,8 +4,7 @@ function damage(obj, dmg)
 end
 
 function draw_hb(w,hp,maxhp,prev_diff)
-    local l=flr(64-w/2)
-    local r=flr(64+w/2)
+    local l,r=flr(64-w/2),flr(64+w/2)
     rect(l-2,121,r+2,127,0)
     rect(l-1,122,r+1,126,7)
     rectfill(l,123,r,125,0)
