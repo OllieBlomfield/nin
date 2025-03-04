@@ -7,8 +7,6 @@ function wpn_init()
     attack_anim=false,
     w=17,
     h=10,
-    --off_x=10,
-    --off_y=0,
     drx = 0,
     dry = 0,
     dir = 0, --0/1 right, 2 left, 3 down, 4 up
@@ -59,16 +57,12 @@ function player_mele_update()
                     wpn.dir=1
                 end
             end
-            wpn.attacking = true
-            wpn.attack_anim = true
+            wpn.attacking, wpn.attack_anim = true, true
         end
     end
     if wpn.attacking then
         plr_attack_anim()
-        wpn.x = plr.x + wpn.dir_boxes_off[wpn.dir][1]
-        wpn.y = plr.y + wpn.dir_boxes_off[wpn.dir][2]
-        wpn.drx = plr.x + wpn.dir_boxes_off[wpn.dir][3]
-        wpn.dry = plr.y - 2 + wpn.dir_boxes_off[wpn.dir][4]
+        wpn.x, wpn.y, wpn.drx, wpn.dry = plr.x + wpn.dir_boxes_off[wpn.dir][1], plr.y + wpn.dir_boxes_off[wpn.dir][2], plr.x + wpn.dir_boxes_off[wpn.dir][3], plr.y - 2 + wpn.dir_boxes_off[wpn.dir][4]
         for e in all(enemies) do
             if coll(wpn,e) then
                 damage(e,1)
@@ -91,9 +85,9 @@ function plr_attack_anim()
             wpn.vert_off_x=8
         end
         if wpn.frame >= 7 then
-            wpn.attacking = false
-            wpn.frame = 1
-            wpn.vert_off_x=0
+            wpn.attacking,wpn.frame,wpn.vert_off_x = false,1,0
+            --wpn.frame = 1
+            --wpn.vert_off_x=0
         end
         wpn.sp=wpn.vert_anim[flr(wpn.frame)]
         if t%2==1 then
@@ -102,14 +96,14 @@ function plr_attack_anim()
     else
         wpn.sp+=0.7
         if wpn.sp>55.5 then 
-            wpn.sp = 50
-            wpn.attacking = false
+            wpn.sp,wpn.attacking=50,false
+            --wpn.attacking = false
         end
     end
 end
 
 --unused
-function closest_to_plr(lst)
+--[[function closest_to_plr(lst)
     local min_dist = 0
     min_obj = lst[1]
     for l in all(lst) do
@@ -120,7 +114,7 @@ function closest_to_plr(lst)
         end
     end
     return min_obj
-end
+end--]]
 
 --TO DO:
 --set the location of collide_map_raycast to front of player instead of back. Could use atk object to do this.

@@ -50,8 +50,8 @@ function player_draw()
     if abs(plr.vy)>0.8 then plr.dr_h = 9 else plr.dr_h=8 end
     sx, sy = (plr.sp % 16) * 8, (plr.sp \ 16) * 8 --from wiki
     --if (plr.inv>0 and t%14>7) or (plr.inv<=0) then
-        sspr(sx,sy,8,8,plr.x,plr.y,plr.dr_w,plr.dr_h, plr.vx < 0 or collide_map(plr, "left", 0))
-        weapon_draw()
+    sspr(sx,sy,8,8,plr.x,plr.y,8,plr.dr_h, plr.vx < 0 or collide_map(plr, "left", 0))
+    weapon_draw()
     --end
     
     main_pal()

@@ -1,14 +1,8 @@
 function player_init(pos)
-    SLIDE_DECEL,SLOW_DECEL,FAST_DECEL,MAX_Y_DECEL = 0.015,0.08,0.25,-1.3
-    GROUNDPOUND_Y_VEL=-3
-    MAX_X_VELOCTY = 1.1
-    run_anim_delay = {30,30,30,20,20,15,15,15}
-    WALL_JUMP_MOVE_DELAY = 12
-    WALL_JUMP_REDUCED_X_VELOCITY = 0.6
-    PLR_INV_TIME = 100
-    COYOTE_TIME=5
-
-    
+    SLIDE_DECEL,SLOW_DECEL,FAST_DECEL,MAX_Y_DECEL,GROUNDPOUND_Y_VEL,MAX_X_VELOCTY,run_anim_delay,WALL_JUMP_MOVE_DELAY,
+    WALL_JUMP_REDUCED_X_VELOCITY,PLR_INV_TIME,COYOTE_TIME = 
+    0.015,0.08,0.25,-1.3,-3,1.1,{30,30,30,20,20,15,15,15},12,0.6,100,5
+        
     plr = {
         sp = 16,
         x = pos[1],
@@ -37,7 +31,7 @@ function player_init(pos)
         spl_pal = {7,7,7},
         respawn_state = 0,
         respawn_time=0,
-        dr_w=8,
+        --dr_w=8,
         dr_h=8, -- draw height and draw width
         temp_collect=false,
         dropped=false,
@@ -95,11 +89,12 @@ function player_update()
         elseif flr(plr.respawn_state)==2 then
             shake=3
             --add_bludsplosion(plr.x,plr.y)
-            add(bloods,blood:new({
+            --[[add(bloods,blood:new({
                 x=plr.x+4,
                 y=plr.y+4,
                 lines=true,
-            },40))
+            },40))]]
+            add_blood(plr.x+4,plr.y+4,40)
             plr.respawn_state=3
         end
     else

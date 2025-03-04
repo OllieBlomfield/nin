@@ -1,10 +1,7 @@
 function screen_shake()
     local fade = 0.95
-    offset=0.15
-    offset_x=8-rnd(16)
-    offset_y=8-rnd(16)
-    offset_x*=offset
-    offset_y*=offset
+    offset = 0.15
+    offset_x, offset_y = (8-rnd(16))*offset, (8-rnd(16))*offset
     
     camera(offset_x,offset_y)
     offset*=fade

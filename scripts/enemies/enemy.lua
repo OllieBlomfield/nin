@@ -60,11 +60,7 @@ enemy = {
 
         --logic regardless of state
         if self.hp <= 0 then
-            add(bloods,blood:new({
-                x=self.x+4,
-                y=self.y+4,
-                lines=true,
-            },20))
+            add_blood(self.x+4,self.y+4,20)
             del(enemies,self)
         end
         if coll(self, plr) and plr.inv == 0 and not wpn.attacking then
@@ -147,9 +143,8 @@ function update_en_vy(obj)
     obj.vy = max(obj.vy-0.25, MAX_Y_DECEL)
     if obj.vy < 0 then
         if collide_map(obj, "down", 0) then
-            obj.vy = 0
+            obj.vy,obj.grounded=0,true
             obj.y-=((obj.y+obj.h+1)%8)-1
-            obj.grounded = true
         end
     end
     obj.y-=obj.vy

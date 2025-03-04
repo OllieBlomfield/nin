@@ -24,7 +24,7 @@ levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
 levels[24]={0,0,{96,112}}
 levels[25]={function() add_enemy(112,112,0,-1) end,0}
-levels[26]={function() snow_init() final_init() end,function() final_update() snow_draw() fire_add(18,6) fire_add(2,22) fire_add(106,6) fire_add(122,22) draw_hb(86,10,10,0) end,{60,104}}
+levels[26]={function() snow_init() final_init() end,function() final_update() snow_draw() fire_add(18,6) fire_add(2,22) fire_add(106,6) fire_add(122,22) end,{60,104}}
 levels[27]={snow_init,snow_draw,{28,112}}
 levels[28]={function() snow_init() add_enemy(96,112,0,-1) end,function() snow_draw() fire_add(82,108) fire_add(114,108) end,{120,16}}
 levels[29]={snow_init,snow_draw,{120,8}}
@@ -37,17 +37,7 @@ function level_load()
     cleared=levels[lvl][4]
     t = 0
     shake=0
-    enemies={}
-    blood.lns = {}
-    blood.splat = {}
-    bloods={}
-    --bs={}
-    drip={}
-    objects={}
-    collects={}
-    snow={}
-    fire={}
-    plr_dust = {}
+    enemies, blood.lns, blood.splat, bloods, drip, objects, collects, snow, fire, plr_dust={},{},{},{},{},{},{},{},{},{}
     health_bar=false
 
     if levels[lvl][1]!=0 then levels[lvl][1]() end
@@ -62,8 +52,8 @@ function level_init()
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=32
-    my=32
+    mx=16
+    my=0
     fade_in=16
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     rsp = levels[lvl][3] or {16,112}
@@ -139,9 +129,6 @@ function level_draw()
     end
 
     for e in all(enemies) do e:draw() end
-    --[[print(cleared,10,10,14)
-    print(rsp[1])
-    print(rsp[2])--]]
     main_pal()
 end
 

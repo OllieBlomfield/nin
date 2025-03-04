@@ -92,6 +92,16 @@ function drip_update()
     end
 end
 
+function add_blood(x,y,n,al,v)
+    al = al or 0
+    v = v or 0
+    add(bloods,blood:new({
+        x=x,
+        y=y,
+        lines=true,
+    },n,al,v))
+end
+
 --[[function add_bludsplosion(x,y)
     for i=1,40 do add(bs,{
         x=x+rnd(8)-4,
