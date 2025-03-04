@@ -43,7 +43,7 @@ function plr_movement_update()
         update_player_x_velocity(-1)
     end
 
-    plr.sprung=max(0,plr.sprung-1)
+    plr.sprung=max(plr.sprung-1)
 
     if plr.jumped then
         if btn(4) or plr.sprung>0 then
@@ -186,9 +186,9 @@ function update_player_x_velocity(dir)
 end
 
 function plr_jump(vx)
-    plr.jmp_held=true
-    plr.vy = plr.jumpfrc
-    plr.jumped = true
-    plr.jp_buffer=0
+    plr.jmp_held,plr.vy,plr.jumped,plr.jp_buffer=true,plr.jumpfrc,true,0
+    --plr.vy = plr.jumpfrc
+    --plr.jumped = true
+    --plr.jp_buffer=0
 end
 

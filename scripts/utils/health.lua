@@ -1,4 +1,4 @@
-function damage(obj, dmg)
+function damage(obj,dmg)
     obj.hp -= dmg
     obj.damaged = true
 end

@@ -31,8 +31,7 @@ function player_init(pos)
         spl_pal = {7,7,7},
         respawn_state = 0,
         respawn_time=0,
-        --dr_w=8,
-        dr_h=8, -- draw height and draw width
+        dr_h=8,
         temp_collect=false,
         dropped=false,
         sprung=0,
@@ -61,57 +60,43 @@ function player_update()
     end
 
     --inv logic
-    plr.inv=max(0,plr.inv-1)
+    plr.inv=max(plr.inv-1)
 
 
     if plr.respawn_state==0 then
         plr_movement_update()
         player_mele_update()
     elseif plr.respawn_state<4 then
-        wpn.attacking=false
+        wpn.attacking,plr.sp=false,24
         plr.respawn_time+=1
         if btnp(5) and plr.respawn_time>20 and fade_in<=0 then fade_in+=2 end
         if fade_in>0 then fade_in+=2 end
         if fade_in>=20 then plr_respawn() end
-        plr.sp=24
-        if plr.respawn_state==1 then
+
+        if plr.respawn_time==1 then
             plr.vx=-sgn(plr.vx)*0.8
             plr.vy=1
-            plr.sp=24
-            plr.respawn_state=1.1
-        elseif plr.respawn_state<2 and plr.respawn_state>1 then
+        elseif plr.respawn_time>1 and plr.respawn_time<25 then
             if t%10>5 then plr.spl_pal={8,8,8} end
-            plr.respawn_state=min(2,plr.respawn_state+0.05)
-            if plr.vx>0 then plr.vx=max(plr.vx-0.03,0.1) else plr.vx=min(plr.vx+0.03,-0.1) end
+            plr.vx = plr.vx>0 and max(plr.vx-0.03,0.1) or min(plr.vx+0.03,-0.1)
             plr.vy=max(0.1,plr.vy-0.1)
             plr.x+=plr.vx
             plr.y-=plr.vy
-        elseif flr(plr.respawn_state)==2 then
+        elseif plr.respawn_time==26 then
             shake=3
-            --add_bludsplosion(plr.x,plr.y)
-            --[[add(bloods,blood:new({
-                x=plr.x+4,
-                y=plr.y+4,
-                lines=true,
-            },40))]]
             add_blood(plr.x+4,plr.y+4,40)
             plr.respawn_state=3
         end
     else
         if btnp(4) then
-            plr.respawn_state=0
-            plr.vy=plr.jumpfrc
+            plr.respawn_state,plr.vy=0,plr.jumpfrc
+            --plr.vy=plr.jumpfrc
         end
     end
 end
 
 
 function plr_respawn()
-    --[[if levels[lvl][3] then
-        player_init({levels[lvl][3][1],levels[lvl][3][2]})
-    else
-        player_init({16,112})
-    end--]]
     player_init(rsp)
     level_load()
 end

@@ -133,13 +133,14 @@ function outro_update()
             add_blood(boss.x,boss.y,100)
         else boss.hb_w-=1 end
     end
-    if boss.hb_w<=0 then set_boss_walls(0) boss.state=3 levels[lvl][4]=true end
+    if boss.hb_w<=0 then set_boss_walls(0,0) boss.state=3 levels[lvl][4]=true end
 end
 
-function set_boss_walls(off_y)
+function set_boss_walls(off_y,sp)
     off_y = off_y or 0
+    sp = sp or 14
     for i=0,6 do 
-        mset(mx+(15*flr(i/3)),off_y+my+1+i%3,14)
+        mset(mx+(15*flr(i/3)),off_y+my+1+i%3,sp)
         add_collect(8*(15*flr(i/3)),(off_y*8)+8*(1+i%3))
     end
 end

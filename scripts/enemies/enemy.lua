@@ -9,14 +9,13 @@ enemy = {
     grounded = false,
     patrol_dir = 1,
     sight_range = 35,
-    chase_time = 0,
     chase_dir = 1,
     max_vx=0.9,
     alert=false,
     hp = 1,
     d = 1,
     og_state = 1,
-    state = 1, --0 for idle, 1 for patrolling, 2 for chasing, 3 for attacking
+    state = 1, --0 for idle, 1 for patrolling, 2 for chasing
 
 
     new=function(self,tbl)
@@ -43,10 +42,7 @@ enemy = {
             add_dust(self.x+2,self.y+8,3)
             
             --change state logic
-            if not can_see_plr(self, sgn(plr.x - self.x)) and self.chase_time==0 then
-                --self.chase_time=120
-                self.state = 1
-            end
+            if not can_see_plr(self, sgn(plr.x - self.x)) then self.state = 1 end
         end
         if self.vx < 0 then
             if collide_map(self,"left",2) then
@@ -77,7 +73,17 @@ enemy = {
         
 
         if self.x>128 or self.x<0 or self.y>128 then del(enemies,self) end
-        update_en_vy(self)
+        
+        --update_en_vy(self)
+        self.vy = max(self.vy-0.25, MAX_Y_DECEL)
+        if self.vy < 0 then
+            if collide_map(self, "down", 0) then
+                self.vy,self.grounded=0,true
+                self.y-=((self.y+self.h+1)%8)-1
+            end
+        end
+        self.y-=self.vy
+
         self.x+=self.vx
     end,
 
@@ -90,39 +96,22 @@ enemy = {
         if self.state==2 then
             spr(48, self.x + 3, self.y-8)
         end
-        animate_enemy(self)
+        self.sp = self.state==0 and (t%120>60 and 16 or 17) or (t%18>9 and 18 or 19)
         pal(7,7)
     end
 }
 
-function animate_enemy(obj)
+--[[function animate_enemy(obj)
     --state logic
-    --[[if abs(obj.vx) < 0.1 then
-        obj.anim_state=0
-    else
-        obj.anim_state=2
-    end--]]
 
-    if obj.state==0 then
-        if t%120>60 then
-            obj.sp=16
-        else
-            obj.sp=17
-        end
-    elseif obj.state==1 then
-        if t%30 > 15 then
-            obj.sp=18
-        else
-            obj.sp=19
-        end
-    elseif obj.state==2 then
-        if t%18 > 9 then
-            obj.sp=18
-        else
-            obj.sp=19
-        end
+    --[[if obj.state==0 then
+        obj.sp=t%120>60 and 16 or 17
+    else
+        obj.sp=t%18>9 and 18 or 19
     end
-end
+
+    obj.sp = obj.state==0 and (t%120>60 and 16 or 17) or (t%18>9 and 18 or 19)
+end]]
 
 function update_en_vx(obj, dir)
     if obj.vx != 0 then obj.vx*=0.91 end
@@ -139,17 +128,6 @@ function update_en_vx(obj, dir)
     end
 end
 
-function update_en_vy(obj)
-    obj.vy = max(obj.vy-0.25, MAX_Y_DECEL)
-    if obj.vy < 0 then
-        if collide_map(obj, "down", 0) then
-            obj.vy,obj.grounded=0,true
-            obj.y-=((obj.y+obj.h+1)%8)-1
-        end
-    end
-    obj.y-=obj.vy
-end
-
 function can_see_plr(obj, dir)
     if obj.y-16<= plr.y and obj.y+8 >= plr.y and plr.respawn_state==0 then
         if dir > 0 and (obj.x <= plr.x and obj.x + obj.sight_range >= plr.x) and not collide_map_raycast(plr,obj) then
@@ -160,7 +138,6 @@ function can_see_plr(obj, dir)
     end
     return false
 end
-
 
 function add_enemy(x,y,st,d)
     if not cleared then

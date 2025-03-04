@@ -1,13 +1,8 @@
 function menu_init()
-    t=0
-    start=0
-    menu_state=0
-    update=menu_update
-    draw=menu_draw
-    fade_in=15
+    t,start,menu_state,sp_diff,update,draw,fade_in=0,0,0,0,menu_update,menu_draw,15
 end
 
-fadeTable={ --from https://kometbomb.net/pico8/fadegen.html
+fadeTable={--from https://kometbomb.net/pico8/fadegen.html
     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     {1,1,129,129,129,129,129,129,129,129,0,0,0,0,0},
     {2,2,2,130,130,130,130,130,128,128,128,128,128,0,0},
@@ -22,9 +17,9 @@ fadeTable={ --from https://kometbomb.net/pico8/fadegen.html
     {11,139,139,139,139,3,3,3,3,129,129,129,0,0,0},
     {12,12,12,140,140,140,140,131,131,131,1,129,129,129,0},
     {13,13,141,141,5,5,5,133,133,130,129,129,128,128,0},
-    {14,8,136,136,136,136,132,132,132,130,128,128,128,128,0},
-    {8,8,136,136,136,136,132,132,132,130,128,128,128,128,0}
-   }
+    {14,14,14,134,134,141,141,2,2,133,130,130,128,128,0},
+    {15,143,143,134,134,134,134,5,5,5,133,133,128,128,0}
+}
 
 function menu_update()
     t+=1
@@ -75,29 +70,17 @@ end
 
 function credit_draw()
     cls()
-    if t>190 then fade_in=(t-160)/2 end
+    if t<54 then fade_in=max(16-((t-20)/2)) end
+    if t>190 then fade_in=(t-160)/3 end
     if t>230 then menu_state=1 end
-    if t<130 then 
-        pal(8,7)
-        pal(14,7) 
-        pal(11,7)
-    else
-        pal(8,8)
-        if t>132 then pal(14,8) else pal(14,7) end
-        if t>134 then pal(11,8) else pal(11,7) end
-    end
-    print("by ob",55,60,7)
-    if t<54 then
-        fade_in=max(16-((t-20)/2),0)
-    elseif t<198 then
-        spr(120,55,60)
-        spr(121,67,60)
-    end
+    if t>130 then sp_diff=min(6,2*(t\2-65)) end
+    spr(120+sp_diff,55,60)
+    spr(121+sp_diff,67,60)
 end
 
 function start_draw()
     cls()
-    fade_in=max(16-(t-230),0)
+    fade_in=max(16-(t-230))
     palt(0, false)
     palt(12, true)
     map(0,48)
