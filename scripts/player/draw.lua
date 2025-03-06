@@ -17,8 +17,10 @@ function update_plr_animation()
     else
         plr.state = btn(3) and 7 or 0
     end
+end
 
-    --animating each state
+function player_draw()
+     --animating each state
     if plr.state == 0 then
         plr.sp = t%120>60 and 17 or 16
     elseif plr.state == 1 then
@@ -27,9 +29,6 @@ function update_plr_animation()
     elseif plr.state>1 then
         plr.sp=18+plr.state
     end
-end
-
-function player_draw()
     plr_pal()
     plr.dr_h = abs(plr.vy)>0.8 and 9 or 8
     sx, sy = (plr.sp % 16) * 8, (plr.sp \ 16) * 8 --from wiki

@@ -66,8 +66,8 @@ function player_update()
     if plr.respawn_state==0 then
         plr_movement_update()
         player_mele_update()
-    elseif plr.respawn_state<4 then
-        wpn.attacking,plr.sp=false,24
+    elseif plr.respawn_state<3 then
+        wpn.attacking,plr.state=false,6
         plr.respawn_time+=1
         if btnp(5) and plr.respawn_time>20 and fade_in<=0 then fade_in+=2 end
         if fade_in>0 then fade_in+=2 end
@@ -85,12 +85,11 @@ function player_update()
         elseif plr.respawn_time==26 then
             shake=3
             add_blood(plr.x+4,plr.y+4,40)
-            plr.respawn_state=3
+            plr.respawn_state=2
         end
     else
         if btnp(4) then
             plr.respawn_state,plr.vy=0,plr.jumpfrc
-            --plr.vy=plr.jumpfrc
         end
     end
 end

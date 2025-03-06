@@ -1,6 +1,6 @@
 levels={} --extra level data for screens that need it.
 for i=1,32 do levels[i]={0,0} end
-levels[1] = {function() if plr.x==15 then plr.respawn_state=4 plr.sp=27 end end,function() if plr.respawn_state==4 then print("🅾️",16,105 + 3*sin(t/170),7) end end,{15,112}}
+levels[1] = {function() if plr.x==15 then plr.respawn_state=4 end end,function() if plr.respawn_state==4 then print("🅾️",16,105 + 3*sin(t/170),7) plr.state=9 end end,{15,112}}
 levels[2]={function() add_blood_drip(55,7) end, function() line(54,-1,55,6,8) print("🅾️ to jump",13,100,5) end}
 levels[4]={function() add_enemy(16,88,0) add_enemy(104,96,0,-1) end,0,{102,8}}
 levels[5]={function() add_enemy(8,8,0) add_enemy(112,80,0,-1) end,0}
@@ -23,6 +23,7 @@ levels[21]={function() for i=1,11 do add_enemy(i*10,8) end end,0}
 levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,112,0,1) end,0}
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
 levels[24][3]={96,112}
+levels[25]={0,function() plr.respawn_state,plr.spl_am,plr.spl_t,plr.state=3,2,1,plr.x<82 and 9 or (t%60>30 and 17 or 18) plr.x-=plr.x<80 and 0 or 0.13 plr.y=plr.x<82 and 105 or 104 if plr.x<82 then print("escaped...",16,16,8) print("time:"..timer/60,16,22,8) end end,{112,104}}
 levels[26]={function() final_init() end,function() final_update() fire_add(18,6) fire_add(2,22) fire_add(106,6) fire_add(122,22) end,{112,104}}
 levels[27][3]={28,112}
 levels[28]={function() add_enemy(96,112,0,-1) end,function() fire_add(82,108) fire_add(114,108) end,{120,16}}
@@ -52,17 +53,19 @@ function level_init()
     --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=16
-    my=0
+    mx=0
+    my=48
+    timer=0
     fade_in=16
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     rsp = levels[lvl][3] or {16,112}
     player_init(rsp)
     level_load()
-
 end
 
 function level_update()
+
+    if mx!=0 or my!=0 then timer+=1 end
     t+=1 --used to count number of frames since start
     fade_in=max(-1,fade_in-1)
     player_update()
@@ -75,8 +78,6 @@ function level_update()
     if en_at_start and #enemies==0 then
         levels[lvl][4]=true
     end
-
-    --bludsplosion_update()
 
     fire_update()
     
@@ -99,6 +100,7 @@ function level_draw()
     
     
     for b in all(bloods) do b:draw() end
+    if my==0 then snow_draw() end
 
     map(mx,my,0,0,16,16,0x40)
 
@@ -106,21 +108,18 @@ function level_draw()
     for f in all(fire) do circfill(f.x,f.y,f.r,f.c) end
     
     for d in all(drip) do 
-        pset(d.x,d.y,8) 
+        pset(d.x,d.y,8)
         pset(d.x,d.og_y,8)
     end
 
     for s in all(plr_dust) do pset(s.x,s.y,s.c) end
 
     if levels[lvl][2]!=0 then levels[lvl][2]() end
-    if my==0 then snow_draw() end
+    
     for o in all(objects) do if o.draw!=0 then o:draw() end end
-    --for e in all(enemies) do e:draw() end
-    --for b in all(bs) do 
-    --    if b.s>1 then rectfill(b.x,b.y,b.x+1,b.y+1,8) else pset(b.x,b.y,8) end
-    --end
-    if plr.respawn_state<2 or plr.respawn_state==4 then 
-        player_draw() 
+
+    if plr.respawn_state!=2 then 
+        player_draw()
     else
         rect(41,59,85,69,7)
         rectfill(42,60,84,68,0)

@@ -85,7 +85,6 @@ function start_draw()
     palt(12, true)
     map(0,48)
     rectfill(0,0,128,119,0)
-    rect(0,0,127,127,7)
     draw_logo(35,40)
     if t%100<50 and start==0 then print("❎escape",48,80,7) end
     if start>45 then fade_in=start-45 end
