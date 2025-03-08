@@ -23,7 +23,14 @@ levels[21]={function() for i=1,11 do add_enemy(i*10,8) end end,0}
 levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,112,0,1) end,0}
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
 levels[24][3]={96,112}
-levels[25]={0,function() plr.respawn_state,plr.spl_am,plr.spl_t,plr.state=3,2,1,plr.x<82 and 9 or (t%60>30 and 17 or 18) plr.x-=plr.x<80 and 0 or 0.13 plr.y=plr.x<82 and 105 or 104 if plr.x<82 then print("escaped...",16,16,8) print("time:"..timer/60,16,22,8) end end,{112,104}}
+levels[25]={0,function() plr.respawn_state,plr.spl_am,plr.spl_t,plr.state=3,2,1,plr.x<82 and 9 or (t%60>30 and 17 or 18) plr.x-=plr.x<80 and 0 or 0.13 plr.y=plr.x<82 and 105 or 104 
+    if plr.x<82 then
+        rectfill(15,15,73,46,0)
+        rect(14,14,74,47,7)
+        print("escaped...",16,16,8)
+        print("time:"..mins.."."..(timer\60<10 and "0" or "")..(timer\60).."."..(timer%60).."s",16,22,8) 
+        spr(118,16,28) print("x"..deaths,26,29)
+        pal(7,8) spr(coin_anim[(t\10%6)+1],16,37) print(coins.."/12",26,38) pal(7,7) end end,{112,104}}
 levels[26]={function() final_init() end,function() final_update() fire_add(18,6) fire_add(2,22) fire_add(106,6) fire_add(122,22) end,{112,104}}
 levels[27][3]={28,112}
 levels[28]={function() add_enemy(96,112,0,-1) end,function() fire_add(82,108) fire_add(114,108) end,{120,16}}
@@ -34,11 +41,12 @@ levels[32][3]={20,48}
 for i=1,32 do levels[i][4]=false end
 function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
+    save()
     cleared=levels[lvl][4]
     t = 0
     shake=0
-    enemies, blood.lns, blood.splat, bloods, drip, objects, collects, snow, fire, plr_dust={},{},{},{},{},{},{},{},{},{}
-    health_bar=false
+    enemies, bloods, drip, objects, collects, snow, fire, plr_dust,splat={},{},{},{},{},{},{},{},{}
+    d_msg = ({"❎ do better","❎ again","❎ more","❎ be faster"})[flr(rnd(4))+1]
 
     if levels[lvl][1]!=0 then levels[lvl][1]() end
     en_at_start=#enemies>0 --stores if there were any enemies at the start of the screen
@@ -50,22 +58,27 @@ function level_load()
 end
 
 function level_init()
-    --reload(0x1000, 0x1000, 0x2000,'data/map00.p8')
     update=level_update
     draw=level_draw
-    mx=0
-    my=48
-    timer=0
+    mx=dget(0)
+    my=dget(1)
+    timer=dget(2)
+    mins=dget(3)
+    deaths=dget(4)
+    coins=dget(5)
     fade_in=16
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     rsp = levels[lvl][3] or {16,112}
     player_init(rsp)
     level_load()
+
+    dset(63,0)
 end
 
 function level_update()
 
     if mx!=0 or my!=0 then timer+=1 end
+    if timer>3600 then timer-=3600 mins+=1 end
     t+=1 --used to count number of frames since start
     fade_in=max(-1,fade_in-1)
     player_update()
@@ -80,15 +93,14 @@ function level_update()
     end
 
     fire_update()
-    
-    for b in all(bloods) do b:update() end
+    blood_update()
+    drip_update()
 
     for o in all(objects) do if o.update!=0 then o:update() end end
 
-    --if switch_delay>0 then switch_delay-=1 end --for switch objects to prevent switching blocks too quickly
     switch_delay=max(switch_delay-1)
     if shake>0 then shake-=1 screen_shake() else camera(0,0) end
-    drip_update()
+    
 end
 
 function level_draw()
@@ -99,7 +111,7 @@ function level_draw()
     map(mx,my,0,0,16,16,0x80)
     
     
-    for b in all(bloods) do b:draw() end
+    blood_draw()
     if my==0 then snow_draw() end
 
     map(mx,my,0,0,16,16,0x40)
@@ -121,9 +133,10 @@ function level_draw()
     if plr.respawn_state!=2 then 
         player_draw()
     else
-        rect(41,59,85,69,7)
-        rectfill(42,60,84,68,0)
-        print("x to retry",44,62,7)
+        local center_offset = (#d_msg*2)
+        rect(62-center_offset,59,center_offset+68,69,7)
+        rectfill(63-center_offset,60,center_offset+67,68,0)
+        print(d_msg,64-center_offset,62,7)
     end
 
     for e in all(enemies) do e:draw() end

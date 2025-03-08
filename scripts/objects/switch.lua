@@ -20,7 +20,7 @@ switch ={
         end
     end,
     draw=function(self)
-        if switch_solid==1 then spr(99,self.x,self.y) else spr(98,self.x,self.y) end
+        spr(switch_solid==1 and 99 or 98, self.x,self.y)
     end
 }
 

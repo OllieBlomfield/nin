@@ -87,7 +87,7 @@ function player_update()
             add_blood(plr.x+4,plr.y+4,40)
             plr.respawn_state=2
         end
-    else
+    elseif plr.respawn_state==4 then
         if btnp(4) then
             plr.respawn_state,plr.vy=0,plr.jumpfrc
         end
@@ -96,6 +96,7 @@ end
 
 
 function plr_respawn()
+    deaths+=1
     player_init(rsp)
     level_load()
 end

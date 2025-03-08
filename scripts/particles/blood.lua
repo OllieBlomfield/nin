@@ -1,69 +1,3 @@
-blood = {
-    x=0,
-    y=0,
-    lns={}, --lines
-    splat={},
-    --shake=true,
-
-    new=function(self, tbl, n, al, v)
-        al=al or 0
-        v=v or 0
-        tbl=tbl or {}
-        setmetatable(tbl,{__index=self})
-        for i=1,n do
-            add(self.splat,{
-                x=tbl.x,
-                y=tbl.y,
-                lines=tbl.lines,
-                vx=rnd(1)-0.5,
-                vy=rnd(1)+v,
-                l=rnd(35) + al,
-                --c=flr(rnd(2)+1)*4
-                c=8
-            })
-        end
-        return tbl
-    end,
-
-    update=function(self)
-        for s in all(self.splat) do
-            s.vy-=0.03
-            s.l-=1
-            s.y-=s.vy
-            s.x+=s.vx
-            if s.l<=0 then
-                if s.lines then self:add_blood_lines(s.x,s.y,s.c) end
-                del(self.splat,s)
-            end
-            if s.y>128 or s.x>128 or s.x<0 then
-                del(self.splat,s)
-            end
-        end
-    end,
-
-    draw=function(self)
-        --print(#self.splat)
-        for s in all(self.splat) do
-            pset(s.x,s.y,s.c)
-        end
-        for b in all(self.lns) do
-            local ty=b.y
-            local tx=b.x
-            line(tx,ty,tx,ty+b.ln,b.c)
-        end
-    end,
-
-    add_blood_lines=function(self,x,y,cl)
-        add(self.lns,{
-            x=x,
-            y=y,
-            ln=flr(rnd(7))+1,
-            c=cl
-        })
-    end
-
-}
-
 drip = {}
 function add_blood_drip(x,y)
     for i=1,3 do
@@ -93,32 +27,41 @@ function drip_update()
 end
 
 function add_blood(x,y,n,al,v)
-    al = al or 0
-    v = v or 0
-    add(bloods,blood:new({
-        x=x,
-        y=y,
-        lines=true,
-    },n,al,v))
-end
-
---[[function add_bludsplosion(x,y)
-    for i=1,40 do add(bs,{
-        x=x+rnd(8)-4,
-        y=y+rnd(4)-2,
-        vy=(rnd(2)-1)/2,
-        vx=(rnd(2)-1)/2,
-        l=rnd(100)+20,
-        s=rnd(2)
-    }) end
-end
-
-function bludsplosion_update()
-    for b in all(bs) do
-        if b.l<=0 then del(bs,b) end
-        b.x+=b.vx
-        b.y-=b.vy
-        b.l-=1
+    for i=1,n do
+        al = al or 0
+        v = v or 0
+        add(bloods, {
+            x=x,
+            y=y,
+            vx=rnd(1)-0.5,
+            vy=rnd(1)+v,
+            l=rnd(35) + al
+        })
     end
 end
---]]
+
+function blood_update()
+    for b in all(bloods) do
+        b.vy-=0.03
+        b.l-=1
+        b.y-=b.vy
+        b.x+=b.vx
+        if b.l<=0 then
+            add(splat,{
+                x=b.x,
+                y=b.y,
+                ln=rnd(7)+1
+            })
+            del(bloods,b)
+        end
+    end
+end
+
+function blood_draw()
+    for b in all(bloods) do
+        pset(b.x,b.y,8)
+    end
+    for s in all(splat) do
+        line(s.x,s.y,s.x,s.y+s.ln,8)
+    end
+end

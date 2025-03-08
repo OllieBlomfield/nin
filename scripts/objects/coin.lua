@@ -9,22 +9,12 @@ coin = {
         if plr.temp_collect and plr.grounded then
             new_level, plr.temp_collect, collected[lvl] = false, false, true
             add_collect(plr.x-(plr.vx*3),plr.y+(plr.vy*3))
+            coins+=1
             del(objects,self)
         end
     end,
 
     draw=function(self)
-        if not plr.temp_collect then
-            spr(coin_anim[self.frame],self.x,self.y)
-        else
-            spr(coin_anim[self.frame],plr.x-(plr.vx*3),plr.y+(plr.vy*3))
-        end
-        if t%10==9 then
-            if self.frame<6 then
-                self.frame+=1
-            else
-                self.frame = 1
-            end
-        end
+        spr(coin_anim[(t\10%6)+1],plr.temp_collect and plr.x-(plr.vx*3) or self.x, plr.temp_collect and plr.y+(plr.vy*3) or self.y)
     end
 }
