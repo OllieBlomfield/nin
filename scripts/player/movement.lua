@@ -75,8 +75,8 @@ function plr_movement_update()
 
     --Wall Jump and slide Logic
     if plr.vy < 0 then
-        if mcol_l then
-            if btnp(4) and not plr.jmp_held then
+        --[[if mcol_l then
+            if plr.jp_buffer>0 and not plr.jmp_held then
                 plr_jump()
                 plr.vx = 1
                 plr.wgt = WALL_JUMP_MOVE_DELAY
@@ -84,13 +84,22 @@ function plr_movement_update()
             plr.decel = SLIDE_DECEL
             add_dust(plr.x, plr.y+3,5)
         elseif mcol_r then
-            if btnp(4) and not plr.jmp_held then
+            if plr.jp_buffer>0 and not plr.jmp_held then
                 plr_jump()
                 plr.vx = -1
                 plr.wgt = WALL_JUMP_MOVE_DELAY
             end
             plr.decel = SLIDE_DECEL
             add_dust(plr.x+plr.w-1, plr.y+3, 5)
+        end]]
+        if mcol_l or mcol_r then
+            if plr.jp_buffer>0 and not plr.jmp_held then
+                plr_jump()
+                plr.vx = mcol_l and 1 or -1
+                plr.wgt = WALL_JUMP_MOVE_DELAY
+            end
+            plr.decel = SLIDE_DECEL
+            add_dust(plr.x + (mcol_r and (plr.w-1) or 0), plr.y+3,5)
         end
     end
 
@@ -187,8 +196,5 @@ end
 
 function plr_jump(vx)
     plr.jmp_held,plr.vy,plr.jumped,plr.jp_buffer=true,plr.jumpfrc,true,0
-    --plr.vy = plr.jumpfrc
-    --plr.jumped = true
-    --plr.jp_buffer=0
 end
 

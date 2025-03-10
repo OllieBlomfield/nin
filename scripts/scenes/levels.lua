@@ -60,6 +60,8 @@ end
 function level_init()
     update=level_update
     draw=level_draw
+    --mx=dget(0)
+    --my=dget(1)
     mx=dget(0)
     my=dget(1)
     timer=dget(2)
