@@ -76,6 +76,7 @@ function player_update()
         if plr.respawn_time==1 then
             plr.vx=-sgn(plr.vx)*0.8
             plr.vy=1
+            sfx(20,2)
         elseif plr.respawn_time>1 and plr.respawn_time<25 then
             if t%10>5 then plr.spl_pal={8,8,8} end
             plr.vx = plr.vx>0 and max(plr.vx-0.03,0.1) or min(plr.vx+0.03,-0.1)
@@ -85,11 +86,14 @@ function player_update()
         elseif plr.respawn_time==26 then
             shake=3
             add_blood(plr.x+4,plr.y+4,40)
+            sfx(19,2)
             plr.respawn_state=2
         end
     elseif plr.respawn_state==4 then
         if btnp(4) then
             plr.respawn_state,plr.vy=0,plr.jumpfrc
+            sfx(14,2)
+            music(8,0,0)
         end
     end
 end

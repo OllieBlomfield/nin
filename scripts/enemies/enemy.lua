@@ -57,6 +57,7 @@ enemy = {
         --logic regardless of state
         if self.hp <= 0 then
             add_blood(self.x+4,self.y+4,20)
+            sfx(10,2)
             del(enemies,self)
         end
         if coll(self, plr) and plr.inv == 0 and not wpn.attacking then

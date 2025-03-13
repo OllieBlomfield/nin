@@ -4,8 +4,10 @@ spring={
             self.frame=0
             if plr.gp then
                 plr.vy,plr.gp=3.8,false
+                sfx(23,3)
             else
                 plr.vy=2.4
+                sfx(22,3)
             end
             plr.sprung,plr.grounded,plr.jumped=20,false,true
         end

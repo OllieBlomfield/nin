@@ -135,7 +135,7 @@ function plr_movement_update()
             plr.vy = 0
             plr.y-=((plr.y+plr.h+1)%8)-1
             plr.grounded = true
-            if plr.gp then shake=9 plr.inv=50 end
+            if plr.gp then shake=9 plr.inv=50 sfx(9,2) end
             --if not btn(3) then plr.gp=false end
             plr.gp=false
             plr.jumped=false
@@ -196,5 +196,6 @@ end
 
 function plr_jump(vx)
     plr.jmp_held,plr.vy,plr.jumped,plr.jp_buffer=true,plr.jumpfrc,true,0
+    sfx(14,2)
 end
 

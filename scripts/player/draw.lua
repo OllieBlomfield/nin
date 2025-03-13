@@ -1,5 +1,6 @@
 function update_plr_animation()
     --Logic to chose which state
+    local prev_state=plr.state
     if plr.gp then
         plr.state=8
     elseif plr.inv > PLR_INV_TIME/2 then
@@ -11,6 +12,8 @@ function update_plr_animation()
     elseif abs(plr.vx) > 0.05 then
         if (plr.vx > 0 and btn(0) and not btn(1)) or (plr.vx < 0 and btn(1) and not btn(0)) then
             plr.state = 2
+            --sfx(16)
+            if prev_state!=2 then sfx(18,2) end
         else
             plr.state = 1
         end
@@ -26,6 +29,7 @@ function player_draw()
     elseif plr.state == 1 then
         spd = min(abs(plr.vx)\0.13+1,8)
         plr.sp = t%run_anim_delay[spd] > run_anim_delay[spd]/2 and 18 or 19
+        if t%10==9 then sfx(15,2) end
     elseif plr.state>1 then
         plr.sp=18+plr.state
     end

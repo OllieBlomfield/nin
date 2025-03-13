@@ -17,6 +17,7 @@ switch ={
         if wpn.attacking and coll(wpn,self) and switch_delay==0 then 
             switch_solid*=-1
             switch_delay=15
+            sfx(13,3)
         end
     end,
     draw=function(self)

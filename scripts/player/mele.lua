@@ -50,6 +50,7 @@ function player_mele_update()
         end
 
         if btnp(5) or plr.gp then
+            if not plr.gp then sfx(21,2) end
             if wpn.dir==0 or (wpn.dir==3 and plr.vy==0) then
                 if plr.vx < 0 then
                     wpn.dir=2
@@ -76,6 +77,7 @@ function weapon_draw()
     if wpn.attacking then
         spr(flr(wpn.sp),wpn.drx+wpn.vert_off_x,wpn.dry, 1, 1, wpn.dir==2 or wpn.frame>=4, wpn.dir==3)
         --rect(wpn.x,wpn.y,wpn.x+wpn.w,wpn.y+wpn.h,14)
+        --sfx(10)
     end
 end
 
@@ -92,6 +94,7 @@ function plr_attack_anim()
         wpn.sp=wpn.vert_anim[flr(wpn.frame)]
         if t%2==1 then
             wpn.frame+=1
+            
         end
     else
         wpn.sp+=0.7

@@ -60,8 +60,6 @@ end
 function level_init()
     update=level_update
     draw=level_draw
-    --mx=dget(0)
-    --my=dget(1)
     mx=dget(0)
     my=dget(1)
     timer=dget(2)
@@ -73,12 +71,12 @@ function level_init()
     rsp = levels[lvl][3] or {16,112}
     player_init(rsp)
     level_load()
-
+    if lvl!=1 then music(8,0,0) end
     dset(63,0)
 end
 
 function level_update()
-
+    
     if mx!=0 or my!=0 then timer+=1 end
     if timer>3600 then timer-=3600 mins+=1 end
     t+=1 --used to count number of frames since start
