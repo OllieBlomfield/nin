@@ -1,119 +1,3 @@
-enemy = {
-    x=0,
-    y=0,
-    h=8,
-    w=8,
-    sp=32,
-    vx=0,
-    vy=0,
-    grounded = false,
-    patrol_dir = 1,
-    sight_range = 35,
-    chase_dir = 1,
-    max_vx=0.9,
-    alert=false,
-    hp = 1,
-    d = 1,
-    og_state = 1,
-    state = 1, --0 for idle, 1 for patrolling, 2 for chasing
-
-
-    new=function(self,tbl)
-        tbl=tbl or {}
-        setmetatable(tbl,{__index=self})
-        return tbl
-    end,
-
-    update=function(self,tbl)
-        if self.state == 0 then
-            if can_see_plr(self, self.d) then self.state = 2 end
-        elseif self.state == 1 then
-            --state logic
-            update_en_vx(self, self.patrol_dir*0.5)
-            if self.vx == 0 then self.patrol_dir*=-1 end
-            
-            --change state logic
-            if can_see_plr(self, self.patrol_dir) then self.state = 2 end
-            
-        elseif self.state == 2 then
-            --state logic
-            
-            update_en_vx(self, sgn(plr.x - self.x))
-            add_dust(self.x+2,self.y+8,3)
-            
-            --change state logic
-            if not can_see_plr(self, sgn(plr.x - self.x)) then self.state = 1 end
-        end
-        if self.vx < 0 then
-            if collide_map(self,"left",2) then
-                self.vx=0
-            end
-        elseif self.vx > 0 then
-            if collide_map(self,"right",2) then
-                self.vx=0
-            end
-        end
-
-        --logic regardless of state
-        if self.hp <= 0 then
-            add_blood(self.x+4,self.y+4,20)
-            sfx(10,2)
-            del(enemies,self)
-        end
-        if coll(self, plr) and plr.inv == 0 and not wpn.attacking then
-            damage(plr,1)
-        end
-
-        --can't remember what this fixes but it breaks spawn direction so come back and fix later :)
-        
-        if self.vx > 0 then 
-            self.d = 1 
-        elseif self.vx < 0 then 
-            self.d = -1
-        end
-        
-
-        if self.x>128 or self.x<0 or self.y>128 then del(enemies,self) end
-        
-        --update_en_vy(self)
-        self.vy = max(self.vy-0.25, MAX_Y_DECEL)
-        if self.vy < 0 then
-            if collide_map(self, "down", 0) then
-                self.vy,self.grounded=0,true
-                self.y-=((self.y+self.h+1)%8)-1
-            end
-        end
-        self.y-=self.vy
-
-        self.x+=self.vx
-    end,
-
-    draw=function(self)
-        pal(15,8)
-        pal(13,8)
-        pal(9,8)
-        pal(7,4)
-        spr(self.sp,self.x,self.y,1,1, self.d < 0)
-        if self.state==2 then
-            spr(48, self.x + 3, self.y-8)
-        end
-        self.sp = self.state==0 and (t%120>60 and 16 or 17) or (t%18>9 and 18 or 19)
-        pal(7,7)
-    end
-}
-
---[[function animate_enemy(obj)
-    --state logic
-
-    --[[if obj.state==0 then
-        obj.sp=t%120>60 and 16 or 17
-    else
-        obj.sp=t%18>9 and 18 or 19
-    end
-
-    obj.sp = obj.state==0 and (t%120>60 and 16 or 17) or (t%18>9 and 18 or 19)
-end]]
-
 function update_en_vx(obj, dir)
     if obj.vx != 0 then obj.vx*=0.91 end
     obj.vx = 0.6*dir
@@ -129,11 +13,11 @@ function update_en_vx(obj, dir)
     end
 end
 
-function can_see_plr(obj, dir)
+function can_see_plr(obj, dir) --and not collide_map_raycast(plr,obj) (removed for space, add back to end of both if statements if enough space at end)
     if obj.y-16<= plr.y and obj.y+8 >= plr.y and plr.respawn_state==0 then
-        if dir > 0 and (obj.x <= plr.x and obj.x + obj.sight_range >= plr.x) and not collide_map_raycast(plr,obj) then
+        if dir > 0 and (obj.x <= plr.x and obj.x + 35 >= plr.x) then
             return true
-        elseif dir < 0 and (obj.x >= plr.x and obj.x - obj.sight_range <= plr.x) and not collide_map_raycast(plr,obj) then
+        elseif dir < 0 and (obj.x >= plr.x and obj.x - 35 <= plr.x) then
             return true
         end
     end
@@ -144,12 +28,106 @@ function add_enemy(x,y,st,d)
     if not cleared then
         st = st or 1
         d = d or 1
-        add(enemies, enemy:new({
+        add(enemies, {
             x=x,
             y=y,
-            og_state=st,
-            state=st,
-            d=d
-        }))
+            h=8,
+            w=8,
+            sp=32,
+            vx=0,
+            vy=0,
+            grounded = false,
+            patrol_dir = 1,
+            chase_dir = 1,
+            max_vx=0.9,
+            hp = 1,
+            d = d,
+            og_state = 1,
+            state = st, --0 for idle, 1 for patrolling, 2 for chasing
+        })
     end
 end
+
+function enemy_update()
+    for e in all(enemies) do
+        if e.state == 0 then
+            if can_see_plr(e, e.d) then e.state = 2 end
+        elseif e.state == 1 then
+            --state logic
+            update_en_vx(e, e.patrol_dir*0.5)
+            if e.vx == 0 then e.patrol_dir*=-1 end
+            
+            --change state logic
+            if can_see_plr(e, e.patrol_dir) then e.state = 2 end
+            
+        elseif e.state == 2 then
+            --state logic
+            
+            update_en_vx(e, sgn(plr.x - e.x))
+            add_dust(e.x+2,e.y+8,3)
+            
+            --change state logic
+            if not can_see_plr(e, sgn(plr.x - e.x)) then e.state = 1 end
+        end
+        --[[if e.vx < 0 then
+            if collide_map(e,"left",2) then
+                e.vx=0
+            end
+        elseif e.vx > 0 then
+            if collide_map(e,"right",2) then
+                e.vx=0
+            end
+        end]]
+        if (e.vx > 0 and collide_map(e,"right",2)) or (e.vx < 0 and collide_map(e,"left",2)) then e.vx=0 end
+
+        --logic regardless of state
+        if e.hp <= 0 then
+            add_blood(e.x+4,e.y+4,20)
+            sfx(10,2)
+            del(enemies,e)
+        end
+        if coll(e, plr) and plr.inv == 0 and not wpn.attacking then
+            damage(plr,1)
+        end
+
+        --can't remember what this fixes but it breaks spawn direction so come back and fix later :)
+        
+        if e.vx > 0 then 
+            e.d = 1 
+        elseif e.vx < 0 then
+            e.d = -1
+        end
+
+        
+
+        if e.x>128 or e.x<0 or e.y>128 then del(enemies,e) end
+        
+        --update_en_vy(self)
+        e.vy = max(e.vy-0.25, MAX_Y_DECEL)
+        if e.vy < 0 then
+            if collide_map(e, "down", 0) then
+                e.vy,e.grounded=0,true
+                e.y-=((e.y+e.h+1)%8)-1
+            end
+        end
+
+        e.y-=e.vy
+        e.x+=e.vx
+    end
+end
+
+function enemy_draw()
+    for e in all(enemies) do
+        pal(15,8)
+        pal(13,8)
+        pal(9,8)
+        pal(7,4)
+        spr(e.sp,e.x,e.y,1,1, e.d < 0)
+        if e.state==2 then
+            spr(48, e.x + 3, e.y-8)
+        end
+        e.sp = e.state==0 and (t%120>60 and 16 or 17) or (t%18>9 and 18 or 19)
+        pal(7,7)
+    end
+end
+

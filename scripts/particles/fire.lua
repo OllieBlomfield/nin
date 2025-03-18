@@ -16,7 +16,6 @@ function fire_add(x,y)
 end
 
 function fire_update()
-
     if t%2==0 then
         for f in all(fire) do
             f.y-=f.spd/2.8

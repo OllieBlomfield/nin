@@ -5,6 +5,14 @@ function save()
     dset(3,mins)
     dset(4,deaths)
     dset(5,coins)
+    next_spot=7
+    --[[for i=1,32 do
+        if collected[i] then
+            dset(next_spot,i)
+            next_spot+=1
+        end
+    end
+    dset(6,next_spot-7) --sets how man]]
 end
 
 function clear_save()

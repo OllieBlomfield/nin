@@ -1,6 +1,7 @@
 function plr_movement_update()
     if plr.x > 128 then
         if mx<112 then
+            check_level_clear()
             mx+=16
             plr.x=0
             level_load()
@@ -9,11 +10,13 @@ function plr_movement_update()
         end
     end
     if plr.x<0 then
+        check_level_clear()
         mx-=16
         plr.x=128
         level_load()
     end
-    if plr.y<0 and my>0   then
+    if plr.y<0 and my>0 then
+        check_level_clear()
         my-=16
         plr.y=128
         level_load()
@@ -22,6 +25,7 @@ function plr_movement_update()
         if my==48 then
             plr.respawn_state=1
         else
+            check_level_clear()
             my+=16
             plr.y=0
             level_load()
@@ -135,7 +139,7 @@ function plr_movement_update()
             plr.vy = 0
             plr.y-=((plr.y+plr.h+1)%8)-1
             plr.grounded = true
-            if plr.gp then shake=9 plr.inv=50 sfx(9,2) end
+            if plr.gp then shake=9 plr.inv=50 sfx(9,3) end
             --if not btn(3) then plr.gp=false end
             plr.gp=false
             plr.jumped=false

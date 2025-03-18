@@ -10,7 +10,7 @@ levels[8][3]={8,56}
 levels[9][3]={86,112}
 levels[10][3]={2,8}
 levels[11]={function() add_enemy(56,112,0,-1) add_enemy(56,64,0,1) add_enemy(96,32,0,-1) end,function() print("❎ to kill",17,97+2*sin(t/170),8) end,{20,8}}
-levels[12]={function() add_enemy(60,64,0,-1) add_enemy(16,112,0) end,function() print("⬇️",20,30+2*sin(t/200),7) end,{2,20}}
+levels[12]={function() add_enemy(60,64,0) add_enemy(16,112,0) end,function() print("⬇️",20,30+2*sin(t/200),7) end,{2,20}}
 levels[13][3]={106,8}
 levels[14]={boss_init,boss_draw,{60,112}}
 levels[15][3]={106,8}
@@ -18,7 +18,7 @@ levels[16][3]={112,112}
 levels[17][3]={112,112}
 levels[18][3]={112,112}
 levels[19]={function() add_enemy(16,48,0,-1) end,0,{112,112}}
-levels[20]={function() add_enemy(8,80,0,1) end,0,{96,8}}
+levels[20]={function() add_enemy(8,80,0,-1) end,0,{96,8}}
 levels[21]={function() for i=1,11 do add_enemy(i*10,8) end end,0}
 levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,112,0,1) end,0}
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
@@ -42,10 +42,7 @@ for i=1,32 do levels[i][4]=false end
 function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     save()
-    cleared=levels[lvl][4]
-    t = 0
-    shake=0
-    enemies, bloods, drip, objects, collects, snow, fire, plr_dust,splat={},{},{},{},{},{},{},{},{}
+    enemies, bloods, drip, objects, collects, snow, fire, plr_dust,splat,t,shake,cleared={},{},{},{},{},{},{},{},{},0,0,levels[lvl][4]
     d_msg = ({"❎ do better","❎ again","❎ more","❎ be faster"})[flr(rnd(4))+1]
 
     if levels[lvl][1]!=0 then levels[lvl][1]() end
@@ -58,25 +55,20 @@ function level_load()
 end
 
 function level_init()
-    update=level_update
-    draw=level_draw
-    mx=dget(0)
-    my=dget(1)
-    timer=dget(2)
-    mins=dget(3)
-    deaths=dget(4)
-    coins=dget(5)
-    fade_in=16
+    --=level_update,level_draw
+    update,draw,mx,my,timer,mins,deaths,coins,fade_in=
+    level_update,level_draw,
+    dget(0),dget(1),dget(2),dget(3),dget(4),dget(5),
+    16
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     rsp = levels[lvl][3] or {16,112}
     player_init(rsp)
     level_load()
-    if lvl!=1 then music(8,0,0) end
-    dset(63,0)
+    if lvl!=1 then music(8,20,0) end
+    dset(63,1)
 end
 
 function level_update()
-    
     if mx!=0 or my!=0 then timer+=1 end
     if timer>3600 then timer-=3600 mins+=1 end
     t+=1 --used to count number of frames since start
@@ -85,12 +77,10 @@ function level_update()
     dust_update()
     collect_update()
     
-    for e in all(enemies) do
-        e:update()
-    end
-    if en_at_start and #enemies==0 then
-        levels[lvl][4]=true
-    end
+    --for e in all(enemies) do
+    --    e:update()
+    --end
+    enemy_update()
 
     fire_update()
     blood_update()
@@ -139,7 +129,14 @@ function level_draw()
         print(d_msg,64-center_offset,62,7)
     end
 
-    for e in all(enemies) do e:draw() end
+    --for e in all(enemies) do e:draw() end
+    enemy_draw()
     main_pal()
+end
+
+function check_level_clear()
+    if en_at_start and #enemies==0 then
+        levels[lvl][4]=true
+    end
 end
 

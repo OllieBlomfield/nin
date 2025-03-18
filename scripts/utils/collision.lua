@@ -32,20 +32,24 @@ end
 
 --From lazydevs
 function coll(a,b)
-  local a_left, a_top, a_right, a_bottom,
+  --[[local a_left, a_top, a_right, a_bottom,
   b_left, b_top, b_right, b_bottom = 
   a.x, a.y, a.x+a.w-1, a.y+a.h-1,
   b.x, b.y, b.x+b.w-1, b.y+b.h-1
 
-  if a_top > b_bottom then return false end
+  --[[if a_top > b_bottom then return false end
   if b_top > a_bottom then return false end
   if a_left>b_right then return false end
-  if b_left>a_right then return false end
+  if b_left>a_right then return false end]]
+  if a.y > b.y+b.h-1 then return false end
+  if b.y > a.y+a.h-1 then return false end
+  if a.x>b.x+b.w-1 then return false end
+  if b.x>a.x+a.w-1 then return false end
 
   return true
 end
 
-function collide_map_raycast(a,b)
+--[[function collide_map_raycast(a,b)
   local gr=(b.y-a.y)/(b.x-a.x)
   local inc=b.y-(gr*b.x)
   local dst = sqrt((a.x-b.x)^2+(a.y-b.y)^2)
@@ -54,5 +58,5 @@ function collide_map_raycast(a,b)
     if fget(col_sp, 0) or fget(col_sp,1) or fget(col_sp,2) then return true end
   end
   return false
-end
+end]]
 

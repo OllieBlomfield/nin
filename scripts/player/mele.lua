@@ -66,7 +66,7 @@ function player_mele_update()
         wpn.x, wpn.y, wpn.drx, wpn.dry = plr.x + wpn.dir_boxes_off[wpn.dir][1], plr.y + wpn.dir_boxes_off[wpn.dir][2], plr.x + wpn.dir_boxes_off[wpn.dir][3], plr.y - 2 + wpn.dir_boxes_off[wpn.dir][4]
         for e in all(enemies) do
             if coll(wpn,e) then
-                damage(e,1)
+                e.hp=0
                 add_splat()
             end
         end
