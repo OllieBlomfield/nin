@@ -22,6 +22,7 @@ end
 function boss_update()
     if boss.state>=0 then boss_t+=1*boss.spd end
     if plr.x<110 and boss.state==-1 and not cleared then
+        music(-1)
         set_boss_walls()
         boss.state=0
     end
@@ -119,12 +120,14 @@ function intro_update()
             boss.x,boss.y,boss.hb_w=-10,-10,min(86,boss.hb_w+1)
             if boss_t>390 then
                 boss.midcol,boss_t,boss.state=7,132,1
+                music(11)
             end
         end
     end
 end
 
 function outro_update()
+    music(-1)
     boss.x+=rnd(2)-1
     boss.y+=rnd(2)-1
     if boss_t>180 then
@@ -133,7 +136,7 @@ function outro_update()
             add_blood(boss.x,boss.y,100)
         else boss.hb_w-=1 end
     end
-    if boss.hb_w<=0 then set_boss_walls(0,0) boss.state=3 levels[lvl][4]=true end
+    if boss.hb_w<=0 then music(8) set_boss_walls(0,0) boss.state=3 levels[lvl][4]=true end
 end
 
 function set_boss_walls(off_y,sp)

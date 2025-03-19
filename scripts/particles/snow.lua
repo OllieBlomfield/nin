@@ -15,7 +15,7 @@ end
 function snow_update()
     for s in all(snow) do
         s.y+=s.s/40
-        s.x+=sin(t/1200)/4-s.spd/4
+        s.x+=(sin(t/1200)-s.spd)/4
         if s.y>snow_h then s.y=-2 end
         if s.x>snow_w then s.x=rnd(snow_w) s.y=-2 end
         if s.x<0 then s.x=snow_w end

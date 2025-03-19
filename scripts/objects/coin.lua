@@ -10,6 +10,7 @@ coin = {
             new_level, plr.temp_collect, collected[lvl] = false, false, true
             add_collect(plr.x-(plr.vx*3),plr.y+(plr.vy*3))
             coins+=1
+            save()
             sfx(12,3)
             del(objects,self)
         end

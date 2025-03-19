@@ -1,10 +1,8 @@
 function menu_init()
     t,start,menu_state,sp_diff,update,draw,fade_in,selection=0,0,0,0,menu_update,menu_draw,15,0
-    choices={}
     music(10)
-    choices={{dget(63)==1 and "continue" or "escape",function() start=1 end},{"new run",function() clear_save() start=1 end}}
-    --if dget(63)==1 then  end
-    pal_pos = dget(63)==1 and 3 or 2
+    choices={{dget(58)==1 and "continue" or "escape",function() start=1 end},{"new run",function() clear_save(true) start=1 end}}
+    pal_pos = dget(58)==1 and 3 or 2
     
 end
 
@@ -35,9 +33,9 @@ function menu_update()
         if start>0 then start+=1
         elseif btnp(5) then choices[selection+1][2]() end
         if start>90 then music(-1) pal() level_init() end
-        choices[pal_pos]={"palette:"..pal_names[pal_c],
+        choices[pal_pos]={"palette:"..pal_got[pal_c][2],
         function()
-            pal_c = pal_c==5 and 1 or min(pal_c+1,5)
+            pal_c = pal_c==#pal_got and 1 or min(pal_c+1,#pal_got)
         end}
     end
 end
@@ -80,6 +78,17 @@ function start_draw()
         if not (start>0 and t%30>15) then print(choices[i][1],48,72+i*8,7) end
     end
     print("❎",40,80+selection*8)
+    local next_id=2
+    for i=0,3 do
+        if dget(59+i)==1 then
+            --i+=2
+            --pal(7,pals[i][1][1])
+            spr(91,i*6,114)
+            --pal(7,7)
+            pal_got[next_id]=pals[i+2]
+            next_id+=1
+        end
+    end
     --draws logo
     if start<44 then
         pal(8,7)

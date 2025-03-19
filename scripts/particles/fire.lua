@@ -22,12 +22,14 @@ function fire_update()
             f.l-=1
             f.r-=0.1
             f.x-=0.1
-            if f.l<16 then 
+            f.c = f.l<16 and 8 or 7
+            --[[if f.l<16 then 
                 f.c=8
-            end 
+            end
+            
             if f.l<9 then 
                 f.c=4
-            end
+            end]]
             if f.l<0 then del(fire,f) end
         end
     end

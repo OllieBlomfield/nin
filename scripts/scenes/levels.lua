@@ -23,15 +23,27 @@ levels[21]={function() for i=1,11 do add_enemy(i*10,8) end end,0}
 levels[22]={function() add_enemy(16,24,0,-1) add_enemy(76,24,0,-1) add_enemy(44,112,0,1) end,0}
 levels[23]={function() snow_init(40,33,20) end, function() snow_draw() print("⬇️",16,20+2*sin(t/200),7) end}
 levels[24][3]={96,112}
-levels[25]={0,function() plr.respawn_state,plr.spl_am,plr.spl_t,plr.state=3,2,1,plr.x<82 and 9 or (t%60>30 and 17 or 18) plr.x-=plr.x<80 and 0 or 0.13 plr.y=plr.x<82 and 105 or 104 
+levels[25]={0,function() music(-1) plr.respawn_state,plr.spl_am,plr.spl_t,plr.state=3,2,1,plr.x<82 and 9 or (t%60>30 and 17 or 18) plr.x-=plr.x<80 and 0 or 0.13 plr.y=plr.x<82 and 105 or 104 
+    if t%30==29 and plr.x>82 then sfx(15,2) end
     if plr.x<82 then
+        if plr.x>81 then sfx(20,2) end
         rectfill(15,15,73,46,0)
         rect(14,14,74,47,7)
         print("escaped...",16,16,8)
         print("time:"..mins.."."..(timer\60<10 and "0" or "")..(timer\60).."."..(timer%60).."s",16,22,8) 
         spr(118,16,28) print("x"..deaths,26,29)
-        pal(7,8) spr(coin_anim[(t\10%6)+1],16,37) print(coins.."/12",26,38) pal(7,7) end end,{112,104}}
-levels[26]={function() final_init() end,function() final_update() fire_add(18,6) fire_add(2,22) fire_add(106,6) fire_add(122,22) end,{112,104}}
+        pal(7,8) spr(coin_anim[(t\10%6)+1],16,37) print(coins.."/12",26,38) 
+        print("❎menu",4,120)
+        pal(7,7)
+        if btnp(5) then dset(63,0) menu_init() end
+        --checks for achievements
+        dset(59,1)
+        if mins<10 then dset(60,1) end
+        if deaths<30 then dset(61,1) end
+        if mins<6 then dset(62,1) end
+    end
+    end,{112,104}}
+levels[26]={final_init,function() final_update() fire_add(18,6) fire_add(2,22) fire_add(106,6) fire_add(122,22) end,{112,104}}
 levels[27][3]={28,112}
 levels[28]={function() add_enemy(96,112,0,-1) end,function() fire_add(82,108) fire_add(114,108) end,{120,16}}
 levels[29][3]={120,8}
@@ -42,13 +54,11 @@ for i=1,32 do levels[i][4]=false end
 function level_load()
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     save()
-    enemies, bloods, drip, objects, collects, snow, fire, plr_dust,splat,t,shake,cleared={},{},{},{},{},{},{},{},{},0,0,levels[lvl][4]
-    d_msg = ({"❎ do better","❎ again","❎ more","❎ be faster"})[flr(rnd(4))+1]
-
+    enemies, bloods, drip, objects, collects, snow, fire, plr_dust,splat,t,shake,cleared,d_msg={},{},{},{},{},{},{},{},{},0,0,levels[lvl][4],({"❎ do better","❎ again","❎ more","❎ be faster"})[flr(rnd(4))+1]
     if levels[lvl][1]!=0 then levels[lvl][1]() end
     en_at_start=#enemies>0 --stores if there were any enemies at the start of the screen
-    rsp = levels[lvl][3] or {16,112}
-    switch_solid=-1
+    rsp,switch_solid = levels[lvl][3] or {16,112},-1
+    --switch_solid=-1
     if my==0 then snow_init() end
 
     scan_screen()
@@ -60,12 +70,14 @@ function level_init()
     level_update,level_draw,
     dget(0),dget(1),dget(2),dget(3),dget(4),dget(5),
     16
+    for i=1,coins do collected[dget(i+5)]=true end
+    for i=1,dget(55) do levels[dget(i+19)][4]=true end
     lvl = 1+(mx/16)+(((48-my)/16)*8)
     rsp = levels[lvl][3] or {16,112}
     player_init(rsp)
     level_load()
     if lvl!=1 then music(8,20,0) end
-    dset(63,1)
+    dset(58,1)
 end
 
 function level_update()
@@ -77,9 +89,6 @@ function level_update()
     dust_update()
     collect_update()
     
-    --for e in all(enemies) do
-    --    e:update()
-    --end
     enemy_update()
 
     fire_update()
@@ -129,7 +138,6 @@ function level_draw()
         print(d_msg,64-center_offset,62,7)
     end
 
-    --for e in all(enemies) do e:draw() end
     enemy_draw()
     main_pal()
 end

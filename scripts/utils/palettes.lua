@@ -1,6 +1,5 @@
-pals,pal_names,pal_c={{7,0,5,8},{0,7,6,8},{139,0,3,11},{14,10,13,2},{8,130,14,136}},
-{"def","inv","neo","cdy","red"},
-1
+pals,pal_c={{{7,0,5,8},"def"},{{0,7,6,8},"inv"},{{139,0,3,11},"neo"},{{14,10,13,2},"cdy"},{{8,130,14,136},"red"}},1
+pal_got={pals[1]}
 --custom pallette reset function
 function main_pal()
     pal()
@@ -11,10 +10,10 @@ function main_pal()
 end
 
 function change_pal()
-    pal(7,pals[pal_c][1],1) --fg
-    pal(0,pals[pal_c][2],1) --bg2
-    pal(5,pals[pal_c][3],1) --bg1
-    pal(8,pals[pal_c][4],1) --blud
+    pal(7,pals[pal_c][1][1],1) --fg
+    pal(0,pals[pal_c][1][2],1) --bg2
+    pal(5,pals[pal_c][1][3],1) --bg1
+    pal(8,pals[pal_c][1][4],1) --blud
 end
 
 --controls player pallette and how much blood is on the player

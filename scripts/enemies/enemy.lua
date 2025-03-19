@@ -2,14 +2,10 @@ function update_en_vx(obj, dir)
     if obj.vx != 0 then obj.vx*=0.91 end
     obj.vx = 0.6*dir
 
-    if obj.vx < 0 then
-        if collide_map(obj,"left",2) then
-            obj.vx=0
-        end
-    elseif obj.vx > 0 then
-        if collide_map(obj,"right",2) then
-            obj.vx=0
-        end
+    if obj.vx < 0 and collide_map(obj,"left",2)then
+        obj.vx=0
+    elseif obj.vx > 0 and collide_map(obj,"right",2) then
+        obj.vx=0
     end
 end
 
@@ -26,8 +22,8 @@ end
 
 function add_enemy(x,y,st,d)
     if not cleared then
-        st = st or 1
-        d = d or 1
+        --st = st or 1
+        --d = d or 1
         add(enemies, {
             x=x,
             y=y,
@@ -41,9 +37,9 @@ function add_enemy(x,y,st,d)
             chase_dir = 1,
             max_vx=0.9,
             hp = 1,
-            d = d,
+            d = d or 1,
             og_state = 1,
-            state = st, --0 for idle, 1 for patrolling, 2 for chasing
+            state = st or 1, --0 for idle, 1 for patrolling, 2 for chasing
         })
     end
 end
@@ -78,12 +74,12 @@ function enemy_update()
                 e.vx=0
             end
         end]]
-        if (e.vx > 0 and collide_map(e,"right",2)) or (e.vx < 0 and collide_map(e,"left",2)) then e.vx=0 end
+        --if (e.vx > 0 and collide_map(e,"right",2)) or (e.vx < 0 and collide_map(e,"left",2)) then e.vx=0 end
 
         --logic regardless of state
         if e.hp <= 0 then
             add_blood(e.x+4,e.y+4,20)
-            sfx(10,2)
+            sfx(24,2)
             del(enemies,e)
         end
         if coll(e, plr) and plr.inv == 0 and not wpn.attacking then

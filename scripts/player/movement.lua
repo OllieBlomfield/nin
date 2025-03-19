@@ -35,10 +35,7 @@ function plr_movement_update()
     if plr.hp <= 0 then plr.respawn_state = 1 end
 
     --map collisions for player
-    mcol_l = collide_map(plr,"left",2)
-    mcol_r = collide_map(plr,"right",2)
-    mcol_u = collide_map(plr, "up", 1)
-    mcol_d = collide_map(plr, "down", 0)
+    mcol_l,mcol_r,mcol_u,mcol_d = collide_map(plr,"left",2),collide_map(plr,"right",2),collide_map(plr, "up", 1),collide_map(plr, "down", 0)
 
     if plr.vx != 0 then plr.vx*=plr.fr end
     if btn(1) and not plr.gp then
@@ -79,23 +76,6 @@ function plr_movement_update()
 
     --Wall Jump and slide Logic
     if plr.vy < 0 then
-        --[[if mcol_l then
-            if plr.jp_buffer>0 and not plr.jmp_held then
-                plr_jump()
-                plr.vx = 1
-                plr.wgt = WALL_JUMP_MOVE_DELAY
-            end
-            plr.decel = SLIDE_DECEL
-            add_dust(plr.x, plr.y+3,5)
-        elseif mcol_r then
-            if plr.jp_buffer>0 and not plr.jmp_held then
-                plr_jump()
-                plr.vx = -1
-                plr.wgt = WALL_JUMP_MOVE_DELAY
-            end
-            plr.decel = SLIDE_DECEL
-            add_dust(plr.x+plr.w-1, plr.y+3, 5)
-        end]]
         if mcol_l or mcol_r then
             if plr.jp_buffer>0 and not plr.jmp_held then
                 plr_jump()
@@ -136,14 +116,12 @@ function plr_movement_update()
         --
         plr.grounded = false
         if (mcol_d) and not (btn(3) and collide_map(plr,"down",5) and not plr.gp) then
-            plr.vy = 0
-            plr.y-=((plr.y+plr.h+1)%8)-1
-            plr.grounded = true
+            if plr.vy<=0 then
+                plr.vy,plr.grounded = 0,true
+                plr.y-=((plr.y+plr.h+1)%8)-1
+            end
             if plr.gp then shake=9 plr.inv=50 sfx(9,3) end
-            --if not btn(3) then plr.gp=false end
-            plr.gp=false
-            plr.jumped=false
-            plr.sprung=0
+            plr.gp,plr.jumped,plr.sprung=false,false,0
         end
     end
 

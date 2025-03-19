@@ -31,18 +31,18 @@ function player_mele_update()
 
     --set attacking direction
     if not wpn.attacking then
-        wpn.sp=50
+        wpn.sp,wpn.flp_y=50,0
         if btn(0) then
             wpn.dir=2
         elseif btn(1) then
             wpn.dir=1
         end
 
-        wpn.flp_y = 0
+        --wpn.flp_y = 0
 
         if btn(2) then
-            wpn.dir = 4
-            wpn.sp=56
+            wpn.dir,wpn.sp=4,56
+            --wpn.sp=56
         end
 
         if plr.gp then
@@ -52,11 +52,12 @@ function player_mele_update()
         if btnp(5) or plr.gp then
             if not plr.gp then sfx(21,2) end
             if wpn.dir==0 or (wpn.dir==3 and plr.vy==0) then
-                if plr.vx < 0 then
+                --[[if plr.vx < 0 then
                     wpn.dir=2
                 else
                     wpn.dir=1
-                end
+                end]]
+                wpn.dir = plr.vx<0 and 2 or 1
             end
             wpn.attacking, wpn.attack_anim = true, true
         end
