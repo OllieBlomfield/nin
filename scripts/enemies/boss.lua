@@ -79,8 +79,10 @@ function fight_update()
     boss.x, boss.y =42*sin(boss_t/250)+64 + 12*cos(boss_t/200)+boss.kb_x, 42*cos(boss_t/250)+64 + 20*sin(boss_t/200)+boss.kb_y
     --boss.y=42*cos(boss_t/250)+64 + 20*sin(boss_t/200)+boss.kb_y
 
-    if boss.kb_x>0 then boss.kb_x-=0.2 end
-    if boss.kb_y>0 then boss.kb_y-=0.2 end
+    --if boss.kb_x>0 then boss.kb_x-=0.2 end
+    --if boss.kb_y>0 then boss.kb_y-=0.2 end
+    boss.kb_x,boss.kb_y=max(boss.kb_x-0.2),max(boss.kb_y-0.2)
+    --boss.kb_y=max(boss.kb_y-0.2)
 
     boss.eye_off_x, boss.eye_off_y =-(boss.x-plr.x)/25, -(boss.y-plr.y)/25
 
@@ -91,13 +93,14 @@ function fight_update()
         boss.midcol=7
     end
 
-    if boss.hp<=0 then boss_t=0 boss.spd=1 boss.state=2 end
+    if boss.hp<=0 then boss_t,boss.spd,boss.state=0,1,2 end
     if boss.hp<=4 then boss.spd=1.3 end
     if boss.hp<=2 then boss.spd=1.6 end
 
     if coll(plr,{x=boss.x-5,y=boss.y-5,h=10,w=10}) and not plr.gp then damage(plr,1) end
     if (coll(wpn,{x=boss.x-8,y=boss.y-8,h=16,w=16}) and wpn.attacking) then 
         if boss.dmged<=0 then
+            sfx(10,3)
             boss.dmged,plr.splat_t=30,300
             boss.prev_hp+=min(boss.hp,1)
             boss.hp-=1
@@ -133,6 +136,7 @@ function outro_update()
     if boss_t>180 then
         if boss.draw then
             boss.draw=false
+            sfx(9,3)
             add_blood(boss.x,boss.y,100)
         else boss.hb_w-=1 end
     end
@@ -142,7 +146,7 @@ end
 function set_boss_walls(off_y,sp)
     off_y = off_y or 0
     sp = sp or 14
-    for i=0,6 do 
+    for i=0,6 do
         mset(mx+(15*flr(i/3)),off_y+my+1+i%3,sp)
         add_collect(8*(15*flr(i/3)),(off_y*8)+8*(1+i%3))
     end

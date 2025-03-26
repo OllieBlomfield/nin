@@ -17,5 +17,10 @@ end
 function clear_save(not_full_clear)
     for i=0,not_full_clear and 58 or 63 do dset(i,0) end
     dset(1,48)
+    if not not_full_clear then menu_init() end
 end
-menuitem(2, "clear save", clear_save)
+menuitem(2, "clear save", function() clear_save(false) end)
+
+function unpack_split(a) --from drakeblues forum post
+    return unpack(split(a))
+end

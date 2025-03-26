@@ -28,14 +28,14 @@ end
 
 function add_blood(x,y,n,al,v)
     for i=1,n do
-        al = al or 0
-        v = v or 0
+        --al = al or 0
+        --v = v or 0
         add(bloods, {
             x=x,
             y=y,
             vx=rnd(1)-0.5,
-            vy=rnd(1)+v,
-            l=rnd(35) + al
+            vy=rnd(1)+(v or 0),
+            l=rnd(35) + (al or 0)
         })
     end
 end

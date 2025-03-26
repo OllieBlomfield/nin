@@ -1,8 +1,8 @@
 function snow_init(w,h,n)
     snow_w = w or 128
     snow_h = h or 128
-    n = n or 80
-    for i=1,n do
+    --n = n or 80
+    for i=1,(n or 80) do
         add(snow,{
             x=rnd(snow_w),
             y=rnd(snow_h),

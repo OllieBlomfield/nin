@@ -22,8 +22,6 @@ end
 
 function add_enemy(x,y,st,d)
     if not cleared then
-        --st = st or 1
-        --d = d or 1
         add(enemies, {
             x=x,
             y=y,
@@ -79,7 +77,7 @@ function enemy_update()
         --logic regardless of state
         if e.hp <= 0 then
             add_blood(e.x+4,e.y+4,20)
-            sfx(24,2)
+            sfx(24,3)
             del(enemies,e)
         end
         if coll(e, plr) and plr.inv == 0 and not wpn.attacking then

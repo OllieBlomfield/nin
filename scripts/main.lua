@@ -1,6 +1,6 @@
 function _init() 
     cartdata("nin_v1")
-    --dset(63,-1)
+    dset(1, dget(58)==0 and 48 or 0)
     menu_init() 
 end
 function _update60() update() end

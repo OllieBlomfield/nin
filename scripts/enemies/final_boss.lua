@@ -10,6 +10,7 @@ function final_init()
         kb_x=0,
         spd=0.8,
         hp=7,
+        hp_dw=0,
         prev_hp=0,
         dmged=0,
     },
@@ -38,22 +39,23 @@ end
 
 function final_draw()
     for b in all(balls) do spr(105+flr((t%15)/7),b.x,b.y) end
-    if f_boss.flash and boss_t%15>7 then pal(7,8) end
+    if f_boss.flash and boss_t%15>7 then sfx(29) pal(7,8) end
     if not (f_boss.dmged>0 and boss_t%15>7) then sspr(104,16,8,15,f_boss.x,f_boss.y,f_boss.dw,15,f_boss.x<plr.x) end
     pal(7,7)
     f_boss.prev_hp=max(f_boss.prev_hp-0.05)
-    draw_hb(86,f_boss.hp,7,f_boss.prev_hp)
+    draw_hb(f_boss.hp_dw,f_boss.hp,7,f_boss.prev_hp)
 end
 
 function final_intro()
     f_boss.dw=min(8,f_boss.dw+0.1)
     if boss_t>=100 then music(11) f_boss.state,boss_t=1,0 end
+    f_boss.hp_dw=min(86,f_boss.hp_dw+1)
 end
 
 function final_fight()
     f_boss.dmged=max(f_boss.dmged-1)
 
-    if f_boss.hp<=0 then f_boss.state=2 end
+    if f_boss.hp<=0 then sfx(30) f_boss.state=2 end
     
     if f_boss.move!=4 then
         local box={x=f_boss.x+1,y=f_boss.y,w=5,h=8}
@@ -125,10 +127,10 @@ end
 
 function final_outro()
     music(-1)
-    f_boss.dw=max(0,f_boss.dw-0.1)
+    f_boss.dw=max(f_boss.dw-0.1)
     if t%10>8 then add_blood(f_boss.x,f_boss.y,15) end
     if f_boss.dw==0 then
-        f_boss.state,plr.spl_am,plr.spl_t=4,2,900
+        f_boss.state,plr.spl_am,plr.spl_t,f_boss.flash=4,2,900,false
         set_boss_walls(10,0)
     end
 end

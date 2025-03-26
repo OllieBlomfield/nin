@@ -64,11 +64,13 @@ function plr_movement_update()
         plr.coy_time=0
         plr_jump()
         plr.grounded = false
-        for i=1,6 do
-            if i < 4 then
-                add_dust(plr.x+rnd(3)-1,plr.y+8,8)
-            else
-                add_dust(plr.x+6+rnd(2),plr.y+8,8)
+        if not collide_map(plr, "up", 1) then
+            for i=1,6 do
+                if i < 4 then
+                    add_dust(plr.x+rnd(3)-1,plr.y+8,8)
+                else
+                    add_dust(plr.x+6+rnd(2),plr.y+8,8)
+                end
             end
         end
     end
@@ -100,12 +102,8 @@ function plr_movement_update()
         plr.gp=true
         plr.vx*= 0.01
     end
-    
-    if not plr.gp then
-        plr.vy = max(plr.vy-plr.decel, MAX_Y_DECEL)
-    else
-        plr.vy=-2.5
-    end
+
+    plr.vy = not plr.gp and max(plr.vy-plr.decel, MAX_Y_DECEL) or -2.5
     
     if plr.vy < 0 then
         --logic for fall partices (not sure to add or not)
@@ -125,10 +123,9 @@ function plr_movement_update()
         end
     end
 
-    if plr.vy > 0 then
-        if mcol_u then
-            plr.vy = 0
-        end
+    if plr.vy > 0 and mcol_u then
+        plr.vy = 0
+        sfx(25,2)
     end
 
     if plr.vx<0 then
@@ -160,11 +157,7 @@ function plr_movement_update()
 end
 
 function update_player_x_velocity(dir)
-    if plr.vx*dir < 0 and plr.wgt > 0 then
-        plr.max_vx = WALL_JUMP_REDUCED_X_VELOCITY
-    else
-        plr.max_vx = MAX_X_VELOCTY
-    end
+    plr.max_vx = (plr.vx*dir < 0 and plr.wgt > 0) and WALL_JUMP_REDUCED_X_VELOCITY or MAX_X_VELOCTY
     if abs(plr.vx) - plr.max_vx < 0 then
         if plr.vx * dir < 0 then
             plr.vx += 0.025 * dir
